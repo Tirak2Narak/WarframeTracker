@@ -1,0 +1,62 @@
+# What changed, newest first. This file is the one place the version number
+# lives: the running version is the first entry (wft/version.py number()), and
+# the "What's new" window shows all of them.
+#
+# version  "major.minor", compared as numbers (1.10 is newer than 1.9)
+# date     YYYY-MM-DD of the archive; empty while the version is not shipped
+# lines    1 to 6 very short lines
+
+[[release]]
+version = "1.5"
+date = "2026-10-28"
+lines = [
+    "Settings in tabs; you set the order of the recommendation",
+    "Mastery, pictures and game data fetch themselves once a day",
+    "Fewer questions after a scan, and a review for one hand",
+    "Beasts count for mastery; Open next shows one chance",
+    "Relics refined between the rounds of an endless mission are recognised",
+    "Status line: age of the last inventory and mastery import",
+]
+
+[[release]]
+version = "1.3"
+date = "2026-10-23"
+lines = [
+    "Trading: I want and I offer, your lists for the trading chat",
+    "Copy the message for Matrix, or save it as CSV or HTML",
+    "Filters: parts missing, mastery, categories, a platinum limit",
+    "Got one / It’s gone keep the lists right after a trade",
+    "Add and correct: just type the name; searches forgive typos",
+    "Parts of a built item you have not mastered yet count as spare",
+]
+
+[[release]]
+version = "1.2"
+date = "2026-10-21"
+lines = [
+    "Reward overlay over the game, gone with the screen, in colours you choose",
+    "Click a card in the game to pick it; one pick per screen, Forma spends the relic",
+    "The relic spent is the one you equipped, read from the game log",
+    "Calibration to the pixel by keys; an older calibration is shown and removable",
+    "Overlays page with a grid for the Arsenal colour palette",
+    "Reward pictures, weekly log files, version numbers and this window",
+]
+
+[[release]]
+version = "1.1"
+date = "2026-10-18"
+lines = [
+    "Setup page that says what is missing",
+    "Hotkey chosen by pressing it",
+    "Reward reading fixed for 16:9 screens, calibration with one button",
+    "Inventory import from 1920x1080 pictures",
+    "Recommendation as a desktop notification",
+    "Guide PDF, start-over buttons, update through install.sh",
+]
+
+[[release]]
+version = "1.0"
+date = "2026-10-14"
+lines = [
+    "First version: rewards ranked by hotkey, inventory import, plan, ducats, rivens",
+]

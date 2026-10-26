@@ -1,0 +1,19 @@
+20.0 Sys [Info]: Resource load completed 0x1 (/Temp/OtherPlayer1_X_1) in one pass and 0.0s
+20.05 Game [Info]: Someone loadout loader finished.
+20.06 Sys [Info]: ResourceLoader 0x2 (/Lotus/Types/Game/Projections/T1VoidProjectionCalibanPrimeBBronze) Found 25 items to load (0ms)
+50.0 Sys [Info]: VoidProjections: OpenVoidProjectionRewardScreenRMI
+50.2 Sys [Info]: VoidProjections: 000000000000000000000000 gets reward /Lotus/StoreItems/Types/Recipes/Weapons/BratonPrimeBlueprint
+100.0 Sys [Info]: Resource load completed 0x1 (/Temp/LocalPlayer0_X_1) in one pass and 0.0s
+100.05 Game [Info]: Someone loadout loader finished.
+100.06 Sys [Info]: ResourceLoader 0x2 (/Lotus/Types/Game/Projections/T4VoidProjectionStyanaxPrimeCPlatinum) Found 25 items to load (0ms)
+101.9 Sys [Info]: Resource load completed 0x1 (/Temp/OtherPlayer1_X_1) in one pass and 0.0s
+101.95 Game [Info]: Someone loadout loader finished.
+101.96 Sys [Info]: ResourceLoader 0x2 (/Lotus/Types/Game/Projections/T4VoidProjectionCitrinePrimeAPlatinum) Found 25 items to load (0ms)
+133.1 Sys [Info]: Resource load completed 0x1 (/Temp/OtherPlayer2_X_1) in one pass and 0.0s
+133.15 Game [Info]: Someone loadout loader finished.
+133.16 Sys [Info]: ResourceLoader 0x2 (/Lotus/Types/Game/Projections/T4VoidProjectionProteaPrimeBPlatinum) Found 25 items to load (0ms)
+151.3 Sys [Info]: Resource load completed 0x1 (/Temp/OtherPlayer3_X_1) in one pass and 0.0s
+151.35 Game [Info]: Someone loadout loader finished.
+151.36 Sys [Info]: ResourceLoader 0x2 (/Lotus/Types/Game/Projections/T4VoidProjectionYareliPrimeCBronze) Found 25 items to load (0ms)
+300.8 Sys [Info]: VoidProjections: OpenVoidProjectionRewardScreenRMI
+301.0 Sys [Info]: VoidProjections: 000000000000000000000000 gets reward /Lotus/StoreItems/Types/Recipes/Weapons/KompressaPrimeReceiver

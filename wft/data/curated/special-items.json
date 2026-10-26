@@ -1,0 +1,30 @@
+{
+  "warframes": {
+    "Equinox": {
+      "type": "composite",
+      "components": {
+        "Blueprint": {},
+        "Day Aspect": {
+          "subcomponents": ["Blueprint", "Neuroptics", "Chassis", "Systems"]
+        },
+        "Night Aspect": {
+          "subcomponents": ["Blueprint", "Neuroptics", "Chassis", "Systems"]
+        }
+      },
+      "note": "Equinox requires Day and Night Aspect, each with 4 sub-parts (total 9 parts)"
+    },
+    "Equinox Prime": {
+      "type": "composite",
+      "components": {
+        "Blueprint": {},
+        "Day Aspect": {
+          "subcomponents": ["Blueprint", "Neuroptics", "Chassis", "Systems"]
+        },
+        "Night Aspect": {
+          "subcomponents": ["Blueprint", "Neuroptics", "Chassis", "Systems"]
+        }
+      },
+      "note": "Equinox Prime follows same structure as standard Equinox"
+    }
+  }
+}

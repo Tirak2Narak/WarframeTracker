@@ -1,0 +1,14 @@
+10.0 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Lith G14 Relic for this mission? It will be consumed if you seal the Void Fissure and extract., title= leftItem=/Menu/Confirm_Item_Yes, rightItem=/Menu/Confirm_Item_No)
+13.0 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to refine and equip Lith G14 Relic? It will cost 100 Void Traces and the relic will be consumed if you seal the Void Fissure and extract., title= leftItem=/Menu/Confirm_Item_Yes, rightItem=/Menu/Confirm_Item_No)
+15.0 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Lith G14 Relic [RADIANT] for this mission? It will be consumed if you seal the Void Fissure and extract., title= leftItem=/Menu/Confirm_Item_Yes, rightItem=/Menu/Confirm_Item_No)
+100.0 Sys [Info]: VoidProjections: OpenVoidProjectionRewardScreenRMI
+100.2 Sys [Info]: VoidProjections: 000000000000000000000000 gets reward /Lotus/StoreItems/Types/Recipes/Weapons/BratonPrimeBlueprint
+125.0 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Lith S19 Relic [EXCEPTIONAL] for this mission? It will be consumed if you seal the Void Fissure and extract., title= leftItem=/Menu/Confirm_Item_Yes, rightItem=/Menu/Confirm_Item_No)
+128.0 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to refine and equip Lith S19 Relic [EXCEPTIONAL]? It will cost 50 Void Traces and the relic will be consumed if you seal the Void Fissure and extract., title= leftItem=/Menu/Confirm_Item_Yes, rightItem=/Menu/Confirm_Item_No)
+130.0 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Lith S19 Relic [RADIANT] for this mission? It will be consumed if you seal the Void Fissure and extract., title= leftItem=/Menu/Confirm_Item_Yes, rightItem=/Menu/Confirm_Item_No)
+300.0 Sys [Info]: VoidProjections: OpenVoidProjectionRewardScreenRMI
+300.2 Sys [Info]: VoidProjections: 000000000000000000000000 gets reward /Lotus/StoreItems/Types/Recipes/Weapons/BratonPrimeBlueprint
+325.0 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to refine and equip Lith G14 Relic? It will cost 100 Void Traces and the relic will be consumed if you seal the Void Fissure and extract., title= leftItem=/Menu/Confirm_Item_Yes, rightItem=/Menu/Confirm_Item_No)
+330.0 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Lith S19 Relic [RADIANT] for this mission? It will be consumed if you seal the Void Fissure and extract., title= leftItem=/Menu/Confirm_Item_Yes, rightItem=/Menu/Confirm_Item_No)
+500.0 Sys [Info]: VoidProjections: OpenVoidProjectionRewardScreenRMI
+500.2 Sys [Info]: VoidProjections: 000000000000000000000000 gets reward /Lotus/StoreItems/Types/Recipes/Weapons/BratonPrimeBlueprint

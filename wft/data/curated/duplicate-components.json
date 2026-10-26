@@ -1,0 +1,90 @@
+{
+  "_description": "Items that require multiple copies of the same component. Format: itemName -> componentName -> required count",
+  "Dual Zoren Prime": {
+    "Blade": 2,
+    "Handle": 2
+  },
+  "Dual Kamas Prime": {
+    "Blade": 2,
+    "Handle": 2
+  },
+  "Dual Keres Prime": {
+    "Blade": 2,
+    "Handle": 2
+  },
+  "Dual Ether": {
+    "Blade": 2
+  },
+  "Dual Heat Swords": {
+    "Blade": 2
+  },
+  "Dual Cleavers": {
+    "Blade": 2
+  },
+  "Dual Skana": {
+    "Blade": 2
+  },
+  "Twin Gremlins": {
+    "Barrel": 2,
+    "Receiver": 2
+  },
+  "Twin Vipers": {
+    "Barrel": 2,
+    "Receiver": 2
+  },
+  "Twin Vipers Wraith": {
+    "Barrel": 2,
+    "Receiver": 2
+  },
+  "Akstiletto Prime": {
+    "Barrel": 2,
+    "Receiver": 2,
+    "Link": 1
+  },
+  "Akbolto Prime": {
+    "Barrel": 2,
+    "Receiver": 2,
+    "Link": 1
+  },
+  "Akjagara Prime": {
+    "Barrel": 2,
+    "Receiver": 2,
+    "Link": 1
+  },
+  "Akvasto Prime": {
+    "Barrel": 2,
+    "Receiver": 2,
+    "Link": 1
+  },
+  "Aklex Prime": {
+    "Barrel": 2,
+    "Receiver": 2,
+    "Link": 1
+  },
+  "Aksomati Prime": {
+    "Barrel": 2,
+    "Receiver": 2,
+    "Link": 1
+  },
+  "Afuris": {
+    "Barrel": 2,
+    "Receiver": 2
+  },
+  "Akzani": {
+    "Barrel": 2,
+    "Receiver": 2
+  },
+  "Dual Toxocyst": {
+    "Barrel": 2,
+    "Receiver": 2
+  },
+  "Hystrix Prime": {
+    "Barrel": 1,
+    "Receiver": 1,
+    "Stock": 1
+  },
+  "Venka Prime": {
+    "Gauntlet": 2,
+    "Blade": 2
+  }
+}

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!--
+    Deliberately not a Warframe logo or the Lotus mark: this project is
+    unaffiliated with Digital Extremes, and borrowing their symbol would imply
+    otherwise on a launcher menu.
+
+    The shape instead says what the tool does. A diamond, which is how the game
+    marks a void reward, holding three bars of differing length - the ranking
+    that the tool exists to produce. The topmost is highlighted, because the
+    whole point is the one line that says "take this".
+  -->
+  <defs>
+    <linearGradient id="void" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2b4f7d"/>
+      <stop offset="1" stop-color="#14243a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- the diamond -->
+  <path d="M32 3 L61 32 L32 61 L3 32 Z"
+        fill="url(#void)" stroke="#72b9ff" stroke-width="2.5"
+        stroke-linejoin="round"/>
+
+  <!-- ranked bars: longest and brightest first, the recommendation -->
+  <rect x="16" y="23" width="32" height="5.5" rx="2.75" fill="#8fd0ff"/>
+  <rect x="19" y="34" width="26" height="4.5" rx="2.25" fill="#4a7bb0"/>
+  <rect x="22" y="43" width="20" height="4" rx="2" fill="#33587f"/>
+</svg>

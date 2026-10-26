@@ -1,0 +1,115 @@
+{
+  "_description": "Items that require other complete items as crafting components. Format: parentItem -> requiredItems with quantities",
+  "Akbronco Prime": {
+    "requires": [
+      { "item": "Bronco Prime", "quantity": 2 }
+    ]
+  },
+  "Akbolto Prime": {
+    "requires": [
+      { "item": "Bolto Prime", "quantity": 2 }
+    ]
+  },
+  "Akmagnus": {
+    "requires": [
+      { "item": "Magnus", "quantity": 2 }
+    ]
+  },
+  "Akjagara": {
+    "requires": [
+      { "item": "Dual Skana", "quantity": 1 },
+      { "item": "Bolto", "quantity": 2 }
+    ]
+  },
+  "Akjagara Prime": {
+    "requires": [
+      { "item": "Jagara Prime", "quantity": 2 }
+    ]
+  },
+  "Akvasto": {
+    "requires": [
+      { "item": "Vasto", "quantity": 2 }
+    ]
+  },
+  "Akvasto Prime": {
+    "requires": [
+      { "item": "Vasto Prime", "quantity": 2 }
+    ]
+  },
+  "Aklex": {
+    "requires": [
+      { "item": "Lex", "quantity": 2 }
+    ]
+  },
+  "Aklex Prime": {
+    "requires": [
+      { "item": "Lex Prime", "quantity": 2 }
+    ]
+  },
+  "Aksomati": {
+    "requires": [
+      { "item": "Somati", "quantity": 2 }
+    ]
+  },
+  "Aksomati Prime": {
+    "requires": [
+      { "item": "Somati Prime", "quantity": 2 }
+    ]
+  },
+  "Akstiletto": {
+    "requires": [
+      { "item": "Stiletto", "quantity": 2 }
+    ]
+  },
+  "Akstiletto Prime": {
+    "requires": [
+      { "item": "Stiletto Prime", "quantity": 2 }
+    ]
+  },
+  "Afuris": {
+    "requires": [
+      { "item": "Furis", "quantity": 2 }
+    ]
+  },
+  "Dual Cleavers": {
+    "requires": [
+      { "item": "Cleaver", "quantity": 2 }
+    ]
+  },
+  "Dual Ether": {
+    "requires": [
+      { "item": "Ether Sword", "quantity": 2 }
+    ]
+  },
+  "Dual Heat Swords": {
+    "requires": [
+      { "item": "Heat Sword", "quantity": 2 }
+    ]
+  },
+  "Dual Skana": {
+    "requires": [
+      { "item": "Skana", "quantity": 2 }
+    ]
+  },
+  "Dual Zoren": {
+    "requires": [
+      { "item": "Zoren", "quantity": 2 }
+    ]
+  },
+  "Twin Gremlins": {
+    "requires": [
+      { "item": "Gremlin", "quantity": 2 }
+    ]
+  },
+  "Twin Vipers": {
+    "requires": [
+      { "item": "Viper", "quantity": 2 }
+    ]
+  },
+  "Ninkondi Prime": {
+    "requires": []
+  },
+  "Redeemer Prime": {
+    "requires": []
+  }
+}

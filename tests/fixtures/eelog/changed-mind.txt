@@ -1,0 +1,4 @@
+10.0 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Meso Y2 Relic for this mission? It will be consumed if you seal the Void Fissure and extract., title=
+20.0 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Meso D8 Relic for this mission? It will be consumed if you seal the Void Fissure and extract., title=
+300.0 Sys [Info]: VoidProjections: OpenVoidProjectionRewardScreenRMI
+300.2 Sys [Info]: VoidProjections: 000000000000000000000000 gets reward /Lotus/StoreItems/Types/Recipes/Weapons/BratonPrimeBlueprint

@@ -1,0 +1,60 @@
+{
+  "warframe": [
+    "Blueprint",
+    "Neuroptics",
+    "Chassis",
+    "Systems"
+  ],
+  
+  "archwing": [
+    "Blueprint",
+    "Wings",
+    "Harness",
+    "Systems"
+  ],
+  
+  "necramech": [
+    "Blueprint",
+    "Weapon Pod",
+    "Capsule",
+    "Casing"
+  ],
+  
+  "sentinel": [
+    "Blueprint",
+    "Carapace",
+    "Cerebrum",
+    "Systems"
+  ],
+  
+  "weapon": [
+    "Blueprint",
+    "Barrel",
+    "Receiver",
+    "Stock",
+    "Blade",
+    "Handle",
+    "Hilt",
+    "Guard",
+    "Grip",
+    "String",
+    "Upper Limb",
+    "Lower Limb",
+    "Disc",
+    "Pouch",
+    "Stars",
+    "Gauntlet",
+    "Link",
+    "Head",
+    "Ornament",
+    "Boot",
+    "Chain",
+    "Hook",
+    "Motor",
+    "Left Gauntlet",
+    "Right Gauntlet",
+    "Carapace",
+    "Cerebrum",
+    "Wings"
+  ]
+}

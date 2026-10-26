@@ -1,0 +1,13 @@
+# Game screenshots are Digital Extremes' content and may show account details.
+# The images themselves stay local and are not in the repository; the tests that
+# need them report "skipped" when they are missing.
+*.png
+*.jpg
+*.webm
+# A saved ScanResult carries both: the frames it cut tiles from and a crop of
+# every tile, which is the same content under a different extension.
+*.pickle
+# Except the header strips of the reward overlay's check: 441 x 108 pixels
+# of the yellow word "REWARDS" over a moving background, no names, no account.
+!header/
+!header/*.png

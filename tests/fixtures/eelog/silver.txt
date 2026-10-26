@@ -1,0 +1,9 @@
+100.0 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Meso D8 Relic for this mission? It will be consumed if you seal the Void Fissure and extract., title=
+120.0 Sys [Info]: Resource load completed 0x1 (/Temp/LocalPlayer0_X_1) in one pass and 0.0s
+120.05 Game [Info]: Someone loadout loader finished.
+120.06 Sys [Info]: ResourceLoader 0x2 (/Lotus/Types/Game/Projections/T2VoidProjectionVorunaPrimeCSilver) Found 25 items to load (0ms)
+121.0 Sys [Info]: Resource load completed 0x1 (/Temp/OtherPlayer1_X_1) in one pass and 0.0s
+121.05 Game [Info]: Someone loadout loader finished.
+121.06 Sys [Info]: ResourceLoader 0x2 (/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeABronze) Found 25 items to load (0ms)
+300.0 Sys [Info]: VoidProjections: OpenVoidProjectionRewardScreenRMI
+300.2 Sys [Info]: VoidProjections: 000000000000000000000000 gets reward /Lotus/StoreItems/Types/Recipes/Weapons/BratonPrimeBlueprint

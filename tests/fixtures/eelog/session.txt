@@ -1,0 +1,240 @@
+2015.294 Sys [Info]: Resource load completed 0x00000000529DC160 (/Temp/LocalPlayer) in one pass and 0.3s (I/O ~= 1.1%, inherited 22,162 of 22,293)
+2015.373 Sys [Info]: Resource load completed 0x000000006157F050 (/Temp/LocalPlayer0_Player_18) in one pass and 0.0s (I/O ~= 0.0%, inherited 20,693 of 20,695)
+2015.398 Game [Info]: Player loadout loader finished.
+2019.311 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/Session_Creating, title=
+2039.809 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Meso Y2 Relic for this mission? It will be consumed if you seal the Void Fissure and extract., title=
+2040.726 Script [Info]: Dialog.lua: Dialog::SendResult(4)
+2041.652 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+2043.027 Sys [Info]: Resource load completed 0x0000000073D3F710 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.0%, inherited 17,110 of 17,112)
+2047.208 Sys [Info]: Resource load completed 0x0000000041970440 (/Temp/LocalPlayer11_Player_19) in one pass and 0.3s (I/O ~= 0.1%, inherited 17,825 of 18,343)
+2047.241 Game [Info]: Player loadout loader finished.
+2047.242 Sys [Info]: ResourceLoader 0x000000001A877070 (/Lotus/Types/Game/Projections/T2VoidProjectionStyanaxPrimeBBronze) Found 20 items to load (0ms)
+2047.759 Sys [Info]: Resource load completed 0x000000000F4878C0 (/Temp/OtherPlayer0_Other1_20) in one pass and 0.6s (I/O ~= 5.6%, inherited 14,151 of 14,503)
+2047.791 Game [Info]: Player loadout loader finished.
+2047.791 Sys [Info]: ResourceLoader 0x00000000765508A0 (/Lotus/Types/Game/Projections/T2VoidProjectionCitrinePrimeDPlatinum) Found 19 items to load (0ms)
+2049.975 Sys [Info]: Resource load completed 0x0000000027F03670 (/Temp/OtherPlayer1_Other2_21) in one pass and 0.3s (I/O ~= 5.3%, inherited 13,733 of 13,944)
+2050.007 Game [Info]: Player loadout loader finished.
+2050.007 Sys [Info]: ResourceLoader 0x0000000074164420 (/Lotus/Types/Game/Projections/T2VoidProjectionStyanaxPrimeDPlatinum) Found 18 items to load (0ms)
+2058.973 Sys [Info]: Resource load completed 0x00000000131B2430 (/Temp/OtherPlayer12_Other3_22) in one pass and 0.4s (I/O ~= 20%, inherited 13,304 of 15,308)
+2059.005 Game [Info]: Player loadout loader finished.
+2059.005 Sys [Info]: ResourceLoader 0x0000000027EF41E0 (/Lotus/Types/Game/Projections/T2VoidProjectionCitrinePrimeAPlatinum) Found 21 items to load (0ms)
+2170.983 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Host migration in progress. Please wait..., title=
+2200.982 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Host migration in progress. Please wait..., title=
+2205.129 Sys [Info]: Resource load completed 0x000000002F9BAC20 (/Temp/LocalPlayer0_Player_23) in one pass and 0.0s (I/O ~= 0.0%, inherited 18,341 of 18,343)
+2205.166 Game [Info]: Player loadout loader finished.
+2205.185 Sys [Info]: ResourceLoader 0x0000000038D763F0 (/Lotus/Types/Game/Projections/T2VoidProjectionStyanaxPrimeBBronze) Found 20 items to load (0ms)
+2295.450 Sys [Info]: VoidProjections: OpenVoidProjectionRewardScreen - PostMigration: 1
+2318.144 Sys [Info]: Resource load completed 0x0000000071D8FAA0 (/Temp/LocalPlayer0_Player_24) in one pass and 0.6s (I/O ~= 0.5%, inherited 18,784 of 20,695)
+2318.176 Game [Info]: Player loadout loader finished.
+2318.359 Sys [Info]: Resource load completed 0x0000000065F07C50 (/Temp/LocalPlayer) in one pass and 2.4s (I/O ~= 0.7%, inherited 19,061 of 22,293)
+2320.828 Sys [Info]: Resource load completed 0x000000002EAC9FA0 (/Temp/LocalPlayer0_Player_25) in one pass and 0.0s (I/O ~= 0.0%, inherited 20,693 of 20,695)
+2320.854 Game [Info]: Player loadout loader finished.
+2342.603 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/PurchaseInProgress, title=
+2357.556 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Meso Y2 Relic for this mission? It will be consumed if you seal the Void Fissure and extract., title=
+2358.157 Script [Info]: Dialog.lua: Dialog::SendResult(4)
+2358.700 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+2366.057 Sys [Info]: Resource load completed 0x000000004C65A390 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.0%, inherited 17,110 of 17,112)
+2370.019 Sys [Info]: Resource load completed 0x0000000040AF0110 (/Temp/LocalPlayer1_Player_26) in one pass and 0.3s (I/O ~= 0.1%, inherited 17,591 of 18,343)
+2370.051 Game [Info]: Player loadout loader finished.
+2370.052 Sys [Info]: ResourceLoader 0x000000002EA52290 (/Lotus/Types/Game/Projections/T2VoidProjectionStyanaxPrimeBBronze) Found 20 items to load (0ms)
+2370.720 Sys [Info]: Resource load completed 0x000000004F01BF50 (/Temp/OtherPlayer0_Other4_27) in one pass and 0.7s (I/O ~= 2.7%, inherited 16,190 of 16,912)
+2370.803 Game [Info]: Player loadout loader finished.
+2370.804 Sys [Info]: ResourceLoader 0x0000000051B10D90 (/Lotus/Types/Game/Projections/T2VoidProjectionStyanaxPrimeBBronze) Found 20 items to load (0ms)
+2372.568 Sys [Info]: Resource load completed 0x00000000655B46A0 (/Temp/OtherPlayer3_Other5_28) in one pass and 0.3s (I/O ~= 9.6%, inherited 15,364 of 16,417)
+2372.599 Game [Info]: Player loadout loader finished.
+2372.600 Sys [Info]: ResourceLoader 0x000000002793C460 (/Lotus/Types/Game/Projections/T2VoidProjectionXakuPrimeAPlatinum) Found 19 items to load (0ms)
+2373.699 Sys [Info]: Resource load completed 0x000000004C7381A0 (/Temp/OtherPlayer2_Other6_29) in one pass and 0.4s (I/O ~= 2.1%, inherited 16,635 of 17,070)
+2373.731 Game [Info]: Player loadout loader finished.
+2373.732 Sys [Info]: ResourceLoader 0x000000001C9CFE40 (/Lotus/Types/Game/Projections/T2VoidProjectionVorunaPrimeCPlatinum) Found 25 items to load (0ms)
+2377.795 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=SKIP CINEMATIC?, title=
+2378.094 Script [Info]: Dialog.lua: Dialog::SendResult(4)
+2534.954 Sys [Info]: VoidProjections: OpenVoidProjectionRewardScreenRMI
+2535.173 Sys [Info]: VoidProjections: 000000000000000000000000 gets reward /Lotus/StoreItems/Types/Recipes/Weapons/LexPrimeBlueprint
+2573.507 Sys [Info]: Resource load completed 0x0000000051956FA0 (/Temp/LocalPlayer) in one pass and 1.8s (I/O ~= 0.7%, inherited 19,219 of 22,293)
+2575.651 Sys [Info]: Resource load completed 0x000000003718F260 (/Temp/LocalPlayer0_Player_30) in one pass and 0.0s (I/O ~= 0.0%, inherited 20,693 of 20,695)
+2575.676 Game [Info]: Player loadout loader finished.
+2605.931 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/Session_Creating, title=
+2606.211 Sys [Info]: Resource load completed 0x0000000077077E70 (/Temp/LocalPlayer0_Player_31) in one pass and 0.0s (I/O ~= 0.0%, inherited 20,693 of 20,695)
+2606.236 Game [Info]: Player loadout loader finished.
+2608.444 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Meso D8 Relic for this mission? It will be consumed if you seal the Void Fissure and extract., title=
+2609.295 Script [Info]: Dialog.lua: Dialog::SendResult(4)
+2619.702 Sys [Info]: Resource load completed 0x000000001875FD90 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.0%, inherited 17,110 of 17,112)
+2623.541 Sys [Info]: Resource load completed 0x0000000021F85BC0 (/Temp/LocalPlayer0_Player_32) in one pass and 0.7s (I/O ~= 9.9%, inherited 17,394 of 18,343)
+2623.593 Game [Info]: Player loadout loader finished.
+2623.593 Sys [Info]: ResourceLoader 0x0000000038ED26D0 (/Lotus/Types/Game/Projections/T2VoidProjectionVorunaPrimeCBronze) Found 25 items to load (0ms)
+2624.947 Sys [Info]: Resource load completed 0x000000004BCDB630 (/Temp/OtherPlayer1_Other7_33) in one pass and 0.6s (I/O ~= 3.1%, inherited 12,674 of 13,043)
+2624.979 Game [Info]: Player loadout loader finished.
+2624.980 Sys [Info]: ResourceLoader 0x0000000017B1C870 (/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeABronze) Found 19 items to load (0ms)
+2634.075 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=SKIP CINEMATIC?, title=
+2634.474 Script [Info]: Dialog.lua: Dialog::SendResult(4)
+2642.395 Sys [Info]: Resource load completed 0x000000005760B3D0 (/Temp/OtherPlayer2_Other8_34) in one pass and 0.6s (I/O ~= 0.2%, inherited 12,903 of 14,922)
+2642.427 Game [Info]: Player loadout loader finished.
+2642.428 Sys [Info]: ResourceLoader 0x000000005992CDF0 (/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeABronze) Found 19 items to load (0ms)
+2663.823 Sys [Info]: Resource load completed 0x0000000040B64D00 (/Temp/OtherPlayer3_Other6_35) in one pass and 0.6s (I/O ~= 9.6%, inherited 14,559 of 17,070)
+2663.855 Game [Info]: Player loadout loader finished.
+2663.855 Sys [Info]: ResourceLoader 0x0000000017E14E80 (/Lotus/Types/Game/Projections/T2VoidProjectionVorunaPrimeCPlatinum) Found 25 items to load (0ms)
+2779.581 Sys [Info]: VoidProjections: OpenVoidProjectionRewardScreen - PostMigration: 0
+2779.798 Sys [Info]: VoidProjections: 000000000000000000000000 gets reward /Lotus/StoreItems/Types/Recipes/Weapons/BratonPrimeBlueprint
+2817.510 Sys [Info]: Resource load completed 0x0000000041A99820 (/Temp/LocalPlayer0_Player_36) in one pass and 0.2s (I/O ~= 0.3%, inherited 18,930 of 20,695)
+2817.542 Game [Info]: Player loadout loader finished.
+2817.742 Sys [Info]: Resource load completed 0x000000005B9F7AA0 (/Temp/LocalPlayer) in one pass and 1.9s (I/O ~= 0.3%, inherited 19,190 of 22,293)
+2820.109 Sys [Info]: Resource load completed 0x0000000028B17390 (/Temp/LocalPlayer0_Player_37) in one pass and 0.0s (I/O ~= 0.0%, inherited 20,693 of 20,695)
+2820.135 Game [Info]: Player loadout loader finished.
+3317.005 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+3317.439 Sys [Info]: Resource load completed 0x0000000060AB58B0 (/Temp/LocalPlayer0_Player_38) in one pass and 0.0s (I/O ~= 0.0%, inherited 20,509 of 20,512)
+3317.464 Game [Info]: Player loadout loader finished.
+3317.532 Sys [Info]: Resource load completed 0x00000000615DADA0 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 75%, inherited 22,043 of 22,047)
+3323.727 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Neo C7 Relic for this mission? It will be consumed if you seal the Void Fissure and extract., title=
+3324.427 Script [Info]: Dialog.lua: Dialog::SendResult(4)
+3334.807 Sys [Info]: Resource load completed 0x000000002E91C150 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.0%, inherited 16,934 of 16,937)
+3338.429 Sys [Info]: Resource load completed 0x000000005B703C60 (/Temp/LocalPlayer0_Player_39) in one pass and 0.6s (I/O ~= 10%, inherited 17,211 of 18,179)
+3338.494 Game [Info]: Player loadout loader finished.
+3338.494 Sys [Info]: ResourceLoader 0x00000000461E95F0 (/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeCBronze) Found 18 items to load (0ms)
+3340.911 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=SKIP CINEMATIC?, title=
+3341.276 Script [Info]: Dialog.lua: Dialog::SendResult(4)
+3346.031 Sys [Info]: Resource load completed 0x00000000466976E0 (/Temp/OtherPlayer4_Other9_40) in one pass and 0.4s (I/O ~= 8.4%, inherited 11,613 of 13,135)
+3346.063 Game [Info]: Player loadout loader finished.
+3346.063 Sys [Info]: ResourceLoader 0x0000000038BDEF30 (/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeCBronze) Found 18 items to load (0ms)
+3377.290 Sys [Info]: Resource load completed 0x0000000034AE0130 (/Temp/OtherPlayer5_Other10_41) in one pass and 0.7s (I/O ~= 10%, inherited 13,298 of 15,843)
+3377.322 Game [Info]: Player loadout loader finished.
+3377.322 Sys [Info]: ResourceLoader 0x000000005C2A18C0 (/Lotus/Types/Game/Projections/T3VoidProjectionAtlasPrimeABronze) Found 19 items to load (0ms)
+3524.457 Sys [Info]: VoidProjections: OpenVoidProjectionRewardScreen - PostMigration: 0
+3529.621 Sys [Info]: VoidProjections: 000000000000000000000000 gets reward /Lotus/StoreItems/Types/Recipes/Weapons/WeaponParts/BratonPrimeBarrel
+3554.070 Sys [Info]: ResourceLoader 0x000000008DDE93A0 (/Lotus/Types/Game/Projections/T3VoidProjectionWukongPrimeCPlatinum) Found 19 items to load (0ms)
+3554.071 Sys [Info]: ResourceLoader 0x000000003E260FD0 (/Lotus/Types/Game/Projections/T3VoidProjectionWukongPrimeCPlatinum) Found 19 items to load (0ms)
+3554.803 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Neo C7 Relic for this mission? It will be consumed if you seal the Void Fissure and extract., title=
+3554.820 Sys [Info]: ResourceLoader 0x0000000041E26BA0 (/Lotus/Types/Game/Projections/T3VoidProjectionCitrinePrimeAPlatinum) Found 18 items to load (0ms)
+3554.821 Sys [Info]: ResourceLoader 0x00000000765C91F0 (/Lotus/Types/Game/Projections/T3VoidProjectionCitrinePrimeAPlatinum) Found 18 items to load (0ms)
+3555.868 Script [Info]: Dialog.lua: Dialog::SendResult(4)
+3555.985 Sys [Info]: ResourceLoader 0x000000004F187DC0 (/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeCBronze) Found 18 items to load (0ms)
+3555.985 Sys [Info]: ResourceLoader 0x000000002A959C60 (/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeCBronze) Found 18 items to load (0ms)
+3774.253 Sys [Info]: VoidProjections: 000000000000000000000000 gets reward /Lotus/StoreItems/Types/Recipes/Weapons/WeaponParts/BratonPrimeBarrel
+3797.009 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Neo C7 Relic for this mission? It will be consumed if you seal the Void Fissure and extract., title=
+3798.240 Script [Info]: Dialog.lua: Dialog::SendResult(4)
+3798.357 Sys [Info]: ResourceLoader 0x00000000488575A0 (/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeCBronze) Found 18 items to load (0ms)
+3798.357 Sys [Info]: ResourceLoader 0x000000005B5C4110 (/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeCBronze) Found 18 items to load (0ms)
+3798.508 Sys [Info]: ResourceLoader 0x000000008DE7A6F0 (/Lotus/Types/Game/Projections/T3VoidProjectionAtlasPrimeABronze) Found 19 items to load (0ms)
+3798.508 Sys [Info]: ResourceLoader 0x0000000060B90D70 (/Lotus/Types/Game/Projections/T3VoidProjectionAtlasPrimeABronze) Found 19 items to load (0ms)
+3799.440 Sys [Info]: ResourceLoader 0x0000000041E26BA0 (/Lotus/Types/Game/Projections/T3VoidProjectionMesaPrimeBPlatinum) Found 21 items to load (0ms)
+3799.440 Sys [Info]: ResourceLoader 0x000000005C7F4FA0 (/Lotus/Types/Game/Projections/T3VoidProjectionMesaPrimeBPlatinum) Found 21 items to load (0ms)
+3984.343 Sys [Info]: VoidProjections: OpenVoidProjectionRewardScreen - PostMigration: 0
+3989.506 Sys [Info]: VoidProjections: 000000000000000000000000 gets reward /Lotus/StoreItems/Types/Recipes/Components/FormaBlueprint
+4022.284 Sys [Info]: Resource load completed 0x0000000056EACCF0 (/Temp/LocalPlayer0_Player_42) in one pass and 0.2s (I/O ~= 11%, inherited 18,625 of 20,512)
+4022.317 Game [Info]: Player loadout loader finished.
+4022.667 Sys [Info]: Resource load completed 0x000000002F84E880 (/Temp/LocalPlayer) in one pass and 2.0s (I/O ~= 1.4%, inherited 20,957 of 22,047)
+4024.962 Sys [Info]: Resource load completed 0x0000000078769340 (/Temp/LocalPlayer0_Player_43) in one pass and 0.0s (I/O ~= 0.0%, inherited 20,509 of 20,512)
+4024.989 Game [Info]: Player loadout loader finished.
+4829.832 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+4834.198 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+4837.719 Sys [Info]: Resource load completed 0x000000006085E9A0 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.2%, inherited 22,289 of 22,293)
+4837.798 Sys [Info]: Resource load completed 0x000000004B44F6A0 (/Temp/LocalPlayer0_Player_44) in one pass and 0.0s (I/O ~= 0.0%, inherited 20,693 of 20,695)
+4837.823 Game [Info]: Player loadout loader finished.
+4845.506 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+4848.255 Sys [Info]: Resource load completed 0x0000000073E7D080 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.0%, inherited 17,110 of 17,112)
+4852.536 Sys [Info]: Resource load completed 0x000000003D42D350 (/Temp/LocalPlayer1_Player_45) in one pass and 0.3s (I/O ~= 0.6%, inherited 17,431 of 18,343)
+4852.569 Game [Info]: Player loadout loader finished.
+4852.961 Sys [Info]: Resource load completed 0x0000000006072510 (/Temp/OtherPlayer0_Other11_46) in one pass and 0.5s (I/O ~= 11%, inherited 17,285 of 19,546)
+4853.021 Game [Info]: Player loadout loader finished.
+4871.348 Sys [Info]: Resource load completed 0x000000000C7A8F90 (/Temp/OtherPlayer2_Other12_47) in one pass and 0.7s (I/O ~= 10%, inherited 14,155 of 15,738)
+4871.380 Game [Info]: Player loadout loader finished.
+4872.388 Sys [Info]: Resource load completed 0x0000000038CFD510 (/Temp/OtherPlayer3_Other13_48) in one pass and 0.4s (I/O ~= 14%, inherited 16,102 of 17,779)
+4872.419 Game [Info]: Player loadout loader finished.
+5067.893 Sys [Info]: Resource load completed 0x000000003DAD5610 (/Temp/LocalPlayer) in one pass and 1.9s (I/O ~= 0.8%, inherited 19,248 of 22,293)
+5070.130 Sys [Info]: Resource load completed 0x0000000035EFD400 (/Temp/LocalPlayer0_Player_49) in one pass and 0.0s (I/O ~= 0.0%, inherited 20,693 of 20,695)
+5070.154 Game [Info]: Player loadout loader finished.
+5077.116 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5079.154 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5079.440 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5085.089 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to build 'RUBICO PRIME'?, title=
+5085.787 Script [Info]: Dialog.lua: Dialog::SendResult(4)
+5085.905 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5086.097 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5118.017 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/Session_Creating, title=
+5118.290 Sys [Info]: Resource load completed 0x0000000048599D80 (/Temp/LocalPlayer0_Player_50) in one pass and 0.1s (I/O ~= 0.0%, inherited 20,693 of 20,695)
+5118.311 Game [Info]: Player loadout loader finished.
+5144.366 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5144.706 Sys [Info]: Resource load completed 0x0000000065E1BBA0 (/Temp/LocalPlayer0_Player_51) in one pass and 0.1s (I/O ~= 1.6%, inherited 20,393 of 20,397)
+5144.737 Game [Info]: Player loadout loader finished.
+5145.056 Sys [Info]: Resource load completed 0x0000000038FDDFF0 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.0%, inherited 22,078 of 22,081)
+5150.717 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=Are you sure you want to equip Lith S18 Relic for this mission? It will be consumed if you seal the Void Fissure and extract., title=
+5151.489 Script [Info]: Dialog.lua: Dialog::SendResult(4)
+5152.034 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5152.626 Sys [Info]: Resource load completed 0x000000000F4AE9E0 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.0%, inherited 16,947 of 16,949)
+5159.954 Sys [Info]: Resource load completed 0x000000001CF0FBB0 (/Temp/LocalPlayer2_Player_52) in one pass and 0.1s (I/O ~= 10%, inherited 18,047 of 18,188)
+5159.986 Game [Info]: Player loadout loader finished.
+5160.004 Sys [Info]: ResourceLoader 0x0000000038E0E3D0 (/Lotus/Types/Game/Projections/T1VoidProjectionStyanaxPrimeEBronze) Found 16 items to load (0ms)
+5160.192 Sys [Info]: Resource load completed 0x0000000038B84970 (/Temp/OtherPlayer0_Other14_53) in one pass and 0.1s (I/O ~= 3.5%, inherited 17,216 of 17,305)
+5160.225 Game [Info]: Player loadout loader finished.
+5160.225 Sys [Info]: ResourceLoader 0x000000005C1E9B50 (/Lotus/Types/Game/Projections/T1VoidProjectionCitrinePrimeDBronze) Found 24 items to load (0ms)
+5160.298 Sys [Info]: Resource load completed 0x0000000038EB1100 (/Temp/OtherPlayer1_Other15_54) in one pass and 0.2s (I/O ~= 0.0%, inherited 18,793 of 18,796)
+5160.325 Game [Info]: Player loadout loader finished.
+5160.325 Sys [Info]: ResourceLoader 0x00000000181AAAF0 (/Lotus/Types/Game/Projections/T1VoidProjectionCitrinePrimeASilver) Found 17 items to load (0ms)
+5218.667 Sys [Info]: VoidProjections: OpenVoidProjectionRewardScreenRMI
+5218.928 Sys [Info]: VoidProjections: 000000000000000000000000 gets reward /Lotus/StoreItems/Types/Recipes/Weapons/WeaponParts/PrimeDaikyuString
+5257.154 Sys [Info]: Resource load completed 0x00000000279CCE40 (/Temp/LocalPlayer) in one pass and 1.9s (I/O ~= 0.5%, inherited 19,050 of 22,081)
+5259.066 Sys [Info]: Resource load completed 0x00000000599B3B40 (/Temp/LocalPlayer0_Player_55) in one pass and 0.0s (I/O ~= 10%, inherited 20,395 of 20,397)
+5259.090 Game [Info]: Player loadout loader finished.
+5451.134 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/Session_Creating, title=
+5451.615 Sys [Info]: Resource load completed 0x0000000078706950 (/Temp/LocalPlayer0_Player_56) in one pass and 0.2s (I/O ~= 3.4%, inherited 20,395 of 20,397)
+5451.637 Game [Info]: Player loadout loader finished.
+5459.239 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5464.963 Sys [Info]: Resource load completed 0x00000000528ADD20 (/Temp/LocalPlayer0_Player_57) in one pass and 0.1s (I/O ~= 0.0%, inherited 20,395 of 20,397)
+5464.982 Game [Info]: Player loadout loader finished.
+5465.050 Sys [Info]: Resource load completed 0x00000000224C07A0 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.0%, inherited 22,078 of 22,081)
+5466.834 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/Session_Deleting, title=
+5755.023 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5758.074 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5760.812 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5816.791 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5830.693 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5863.019 Sys [Info]: Resource load completed 0x000000003F1B1E10 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.2%, inherited 22,873 of 22,878)
+5863.092 Sys [Info]: Resource load completed 0x0000000076FD2490 (/Temp/LocalPlayer0_Player_58) in one pass and 0.0s (I/O ~= 0.0%, inherited 21,045 of 21,048)
+5863.118 Game [Info]: Player loadout loader finished.
+5890.320 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5915.106 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5925.289 Script [Info]: InputDialog.lua: Dialog::SendResult(4)
+5925.406 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+5945.585 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+6043.057 Sys [Info]: Resource load completed 0x00000000366E4D60 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.0%, inherited 22,062 of 22,065)
+6043.115 Sys [Info]: Resource load completed 0x0000000075592FD0 (/Temp/LocalPlayer0_Player_59) in one pass and 0.0s (I/O ~= 0.0%, inherited 20,237 of 20,239)
+6043.142 Game [Info]: Player loadout loader finished.
+6047.207 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+6051.776 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/Session_Creating, title=
+6064.899 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+6065.445 Sys [Info]: Resource load completed 0x00000000778F2E40 (/Temp/LocalPlayer0_Player_60) in one pass and 0.1s (I/O ~= 0.1%, inherited 20,692 of 20,695)
+6065.475 Game [Info]: Player loadout loader finished.
+6065.536 Sys [Info]: Resource load completed 0x00000000778D6960 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.0%, inherited 22,290 of 22,293)
+6077.338 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+6077.784 Sys [Info]: Resource load completed 0x000000002F891F00 (/Temp/LocalPlayer0_Player_61) in one pass and 0.0s (I/O ~= 0.0%, inherited 20,237 of 20,239)
+6077.808 Game [Info]: Player loadout loader finished.
+6077.879 Sys [Info]: Resource load completed 0x000000003227BA70 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 2.1%, inherited 22,062 of 22,065)
+6093.424 Sys [Info]: Resource load completed 0x00000000127AD9F0 (/Temp/LocalPlayer0_Player_62) in one pass and 0.1s (I/O ~= 0.0%, inherited 20,245 of 20,247)
+6093.446 Game [Info]: Player loadout loader finished.
+6093.516 Sys [Info]: Resource load completed 0x000000008E088220 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.0%, inherited 22,070 of 22,073)
+6099.728 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+6100.810 Sys [Info]: Resource load completed 0x00000000283D8A80 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.0%, inherited 16,587 of 16,589)
+6115.721 Sys [Info]: Resource load completed 0x0000000038E7BED0 (/Temp/LocalPlayer1_Player_63) in one pass and 0.4s (I/O ~= 0.0%, inherited 16,910 of 17,722)
+6115.739 Game [Info]: Player loadout loader finished.
+6116.661 Sys [Info]: Resource load completed 0x000000001AD85EF0 (/Temp/OtherPlayer2_Other16_64) in one pass and 1.0s (I/O ~= 8.7%, inherited 15,210 of 16,017)
+6116.726 Game [Info]: Player loadout loader finished.
+6117.283 Sys [Info]: Resource load completed 0x0000000028527D20 (/Temp/OtherPlayer0_Other17_65) in one pass and 1.6s (I/O ~= 12%, inherited 18,356 of 18,885)
+6117.315 Game [Info]: Player loadout loader finished.
+6125.743 Sys [Info]: Resource load completed 0x000000002298C690 (/Temp/OtherPlayer3_Other18_66) in one pass and 0.9s (I/O ~= 38%, inherited 13,802 of 16,089)
+6125.775 Game [Info]: Player loadout loader finished.
+6272.000 Sys [Info]: Resource load completed 0x00000000282DA330 (/Temp/LocalPlayer) in one pass and 0.4s (I/O ~= 16%, inherited 19,002 of 22,073)
+6293.153 Sys [Info]: Resource load completed 0x0000000012983D10 (/Temp/LocalPlayer) in one pass and 1.2s (I/O ~= 19%, inherited 22,070 of 22,073)
+6295.808 Sys [Info]: Resource load completed 0x000000004F574C80 (/Temp/LocalPlayer0_Player_67) in one pass and 0.0s (I/O ~= 0.0%, inherited 20,265 of 20,267)
+6295.833 Game [Info]: Player loadout loader finished.
+6298.997 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/Session_Creating, title=
+6299.242 Sys [Info]: Resource load completed 0x0000000046D085D0 (/Temp/LocalPlayer0_Player_68) in one pass and 0.1s (I/O ~= 0.0%, inherited 20,265 of 20,267)
+6299.265 Game [Info]: Player loadout loader finished.
+6303.689 Script [Info]: Dialog.lua: Dialog::CreateOkCancel(description=/Lotus/Language/Menu/NavBar_QuickMatchPleaseWait, title=
+6307.596 Sys [Info]: Resource load completed 0x0000000038CFC3D0 (/Temp/LocalPlayer) in one pass and 0.0s (I/O ~= 0.0%, inherited 16,607 of 16,609)
+6311.826 Sys [Info]: Resource load completed 0x0000000027721E80 (/Temp/LocalPlayer1_Player_69) in one pass and 0.3s (I/O ~= 3.7%, inherited 16,790 of 17,742)
+6311.859 Game [Info]: Player loadout loader finished.
+6313.868 Sys [Info]: Resource load completed 0x0000000049CBB1A0 (/Temp/OtherPlayer0_Other19_70) in one pass and 1.0s (I/O ~= 0.0%, inherited 16,247 of 16,800)
+6313.899 Game [Info]: Player loadout loader finished.
+6318.938 Sys [Info]: Resource load completed 0x000000003426A1F0 (/Temp/OtherPlayer2_Other20_71) in one pass and 0.5s (I/O ~= 4.1%, inherited 15,340 of 15,758)
+6318.971 Game [Info]: Player loadout loader finished.
+6351.237 Sys [Info]: Resource load completed 0x000000003DDDFB50 (/Temp/OtherPlayer3_Other21_72) in one pass and 0.5s (I/O ~= 7.0%, inherited 16,101 of 17,847)
+6351.270 Game [Info]: Player loadout loader finished.

@@ -1,0 +1,527 @@
+#!/usr/bin/env python3
+"""warframe-tracker command line.
+
+Deliberately thin: every command is a few lines over the library, so the
+behaviour lives in modules that the GUI will use too, not in the CLI.
+"""
+from __future__ import annotations
+
+import argparse
+import sys
+import time
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from wft import config  # noqa: E402
+from wft.data import build, db as dbq, publicexport as pe, vaulted  # noqa: E402
+
+
+def cmd_update(args) -> int:
+    """Refresh the reference data, downloading only what actually changed."""
+    cfg = config.load()
+    print(f"config: {cfg.source}")
+    print(f"data:   {cfg.data_dir}")
+
+    index = pe.fetch_index(cfg)
+    pending = pe.outdated(cfg, index)
+    if not pending and not args.force:
+        print(f"\nManifests unchanged ({len(index)} in index) — nothing to download.")
+    else:
+        targets = [index[name] for name in cfg.get("sources.manifests", [])
+                   if name in index] if args.force else pending
+        print(f"\nDownloading {len(targets)} manifest(s):")
+        pe.download(cfg, targets, progress=lambda name, i, n: print(f"  [{i}/{n}] {name}"))
+
+    notes: list[str] = []
+    print("\nBuilding database…")
+    counts = build.build(cfg, notes)
+    for key, value in counts.items():
+        print(f"  {key:22s} {value}")
+
+    status = _apply_vault(cfg, notes)
+    for note in notes:
+        print(f"  note: {note}")
+    return status
+
+
+def _apply_vault(cfg, notes: list[str]) -> int:
+    """Vault status from DE's drop tables; loud, and non-zero, when it fails."""
+    print("\nApplying vault status from DE's drop tables…")
+    try:
+        counts = vaulted.apply(cfg, notes)
+    except vaulted.DropTableError as exc:
+        print(f"\nVAULT STATUS NOT UPDATED: {exc}", file=sys.stderr)
+        return 1
+    for key, value in counts.items():
+        print(f"  {key:22s} {value}")
+    return 0
+
+
+def cmd_droptables(args) -> int:
+    """Refresh vault status only: one download, no manifests, no rebuild.
+
+    Vault status rotates with relic rotations, which come without a change to
+    the Public Export. Other tools can read the same page, so one download
+    serves them and the tracker alike.
+    """
+    cfg = config.load()
+    print(f"config: {cfg.source}")
+    print(f"data:   {cfg.data_dir}")
+    notes: list[str] = []
+    status = _apply_vault(cfg, notes)
+    for note in notes:
+        print(f"  note: {note}")
+    return status
+
+
+def cmd_info(args) -> int:
+    """Everything known about one part: set, ducats, vault status, sources."""
+    cfg = config.load()
+    conn = dbq.connect(cfg.db_path)
+
+    row = dbq.find_part_by_name(conn, args.name)
+    if row is None:
+        matches = conn.execute(
+            "SELECT name FROM parts WHERE name LIKE ? ORDER BY name LIMIT 8",
+            (f"%{args.name}%",)).fetchall()
+        print(f"No part named {args.name!r}.")
+        if matches:
+            print("Did you mean:")
+            for match in matches:
+                print(f"  {match['name']}")
+        return 1
+
+    unique = row["unique_name"]
+    part = dbq.part_row(conn, unique)
+    is_vaulted, share = dbq.vault_state(conn, unique)
+    held, total = dbq.set_progress(conn, part["item_unique"]) if part["item_unique"] else (0, 0)
+
+    print(f"{part['name']}")
+    print(f"  belongs to     {part['item_name'] or '-'}  ({part['category'] or '-'})")
+    print(f"  ducats         {dbq.ducats(conn, unique) or '-'}")
+    print(f"  needed         {part['count_needed']}x per set")
+    print(f"  set progress   {held}/{total} pieces held")
+    print(f"  you own        {dbq.owned_count(conn, unique)}")
+    if part["item_unique"]:
+        print(f"  built          {dbq.item_built(conn, part['item_unique'])}")
+        consumers = dbq.needed_as_ingredient(conn, part["item_unique"])
+        if consumers:
+            print(f"  also feeds     {', '.join(c['name'] for c in consumers)}")
+    if is_vaulted is None:
+        print("  vaulted        unknown")
+    else:
+        print(f"  vaulted        {'yes' if is_vaulted else 'no'}"
+              f"  ({share:.0%} of its relics are vaulted)")
+
+    relics = dbq.relics_dropping(conn, unique)
+    print(f"\n  dropped by {len(relics)} relic(s):")
+    for relic in relics[:12]:
+        state = "vaulted" if relic["vaulted"] else "available" if relic["vaulted"] == 0 else "?"
+        print(f"    {relic['name']:26s} {relic['rarity']:9s} {state}")
+    if len(relics) > 12:
+        print(f"    … and {len(relics) - 12} more")
+    return 0
+
+
+def cmd_windows(args) -> int:
+    """List X11 windows — for finding the value to put in game.window_class."""
+    from wft.capture import window as cap
+
+    cfg = config.load()
+    configured = str(cfg.get("game.window_class", ""))
+
+    windows = cap.list_windows()
+    print(f"{len(windows)} viewable X11 window(s):\n")
+    for entry in windows:
+        marker = "<- matches config" if configured and (
+            configured.lower() in entry.wm_class.lower()
+            or configured.lower() in entry.title.lower()) else ""
+        print(f"  0x{entry.xid:08x}  {entry.width:5d}x{entry.height:<5d} "
+              f"class={entry.wm_class!r:24s} title={entry.title[:30]!r} {marker}")
+
+    game = cap.find_game(configured) if configured else None
+    print(f"\ngame.window_class = {configured!r} -> "
+          f"{'found: ' + repr(game.wm_class) if game else 'no match'}")
+    if game is None:
+        print("Start the game, or set game.window_class in config.toml to one of the "
+              "classes above.")
+    return 0 if game else 1
+
+
+def cmd_shot(args) -> int:
+    """Capture the reward regions and save them, to check the geometry."""
+    from wft.capture import window as cap
+    from wft.relic import regions as R
+
+    cfg = config.load()
+    R.load_overrides(cfg)
+
+    game = cap.find_game(str(cfg.get("game.window_class", "")))
+    if game is None:
+        print("Game window not found. Try: wf windows")
+        return 1
+
+    out = Path(args.out).expanduser()
+    out.mkdir(parents=True, exist_ok=True)
+    print(f"window {game.width}x{game.height} (class {game.wm_class!r})")
+
+    started = time.perf_counter()
+    frame = cap.grab(game)
+    if frame.uniform():
+        print("Capture came back blank — the window is not rendering into X.")
+        return 1
+    cap.to_image(frame).save(out / "full.png")
+
+    for index in range(args.rewards):
+        region = R.name_region(index, args.rewards)
+        crop = cap.grab(game, region.as_tuple())
+        cap.to_image(crop).save(out / f"reward{index + 1}_name.png")
+        print(f"  reward {index + 1}: {crop.width}x{crop.height} from {region.as_tuple()}")
+
+    print(f"\n{time.perf_counter() - started:.3f}s -> {out}")
+    print("Check the crops: each should contain one reward name and nothing else.")
+    return 0
+
+
+def cmd_read(args) -> int:
+    """Read reward names from image files and rank them. The whole chain, offline."""
+    from PIL import Image
+
+    from wft.ocr import engine as E
+    from wft.relic import match as M, score as S
+
+    cfg = config.load()
+    conn = dbq.connect(cfg.db_path)
+    candidates = M.all_prime_parts(conn)
+    print(f"OCR backend: {E.backend()}, {len(candidates)} candidates\n")
+
+    started = time.perf_counter()
+    rewards = []
+    with E.Engine(psm=E.PSM_BLOCK) as engine:
+        for position, path in enumerate(args.images, start=1):
+            raw = E.read_lines(engine.read(Image.open(path)))
+            found = M.match(raw, candidates)
+            print(f"  {position}. {Path(path).name:28s} {raw[:34]!r:36s} -> "
+                  f"{found.name!r} ({found.score:.0f})")
+            rewards.append(
+                S.load_reward(conn, found.part_unique, position, raw, found.score)
+                if found.part_unique else S.Reward(position=position, raw_text=raw))
+
+    verdict = S.rank(rewards, S.order_from_config(cfg))
+    print()
+    for reward in verdict.rewards:
+        marker = "->" if verdict.best and reward.position == verdict.best.position else "  "
+        print(f"  {marker} {reward.position}. {(reward.name or reward.raw_text)[:32]:34s} "
+              f"{', '.join(reward.reasons)}")
+    print(f"\n  {verdict.headline}")
+    print(f"  ({time.perf_counter() - started:.3f}s)")
+    return 0
+
+
+
+def cmd_own(args) -> int:
+    """Record what you hold. Parts by part name, built items by item name."""
+    cfg = config.load()
+    conn = dbq.connect(cfg.db_path)
+
+    if args.built:
+        row = dbq.find_item_by_name(conn, args.name)
+        if row is None:
+            near = conn.execute(
+                "SELECT name FROM items WHERE name LIKE ? ORDER BY name LIMIT 8",
+                (f"%{args.name}%",)).fetchall()
+            print(f"No item named {args.name!r}.")
+            for match in near:
+                print(f"  {match['name']}")
+            return 1
+        dbq.set_item_count(conn, row["unique_name"], args.count, "manual")
+        print(f"{row['name']}: built x{args.count}")
+        if args.count > 0:
+            print("  Its parts now count as no longer needed — which is exactly what")
+            print("  the game's Owned badge cannot tell you.")
+        return 0
+
+    row = dbq.find_part_by_name(conn, args.name)
+    if row is None:
+        near = conn.execute(
+            "SELECT name FROM parts WHERE name LIKE ? ORDER BY name LIMIT 8",
+            (f"%{args.name}%",)).fetchall()
+        print(f"No part named {args.name!r}.")
+        for match in near:
+            print(f"  {match['name']}")
+        return 1
+    dbq.set_part_count(conn, row["unique_name"], args.count, "manual")
+    print(f"{row['name']}: x{args.count}")
+    return 0
+
+
+def cmd_inventory(args) -> int:
+    """What is recorded, and where each number came from."""
+    cfg = config.load()
+    conn = dbq.connect(cfg.db_path)
+
+    if args.clear:
+        parts, items = dbq.clear_source(conn, args.clear)
+        print(f"Removed {parts} part record(s) and {items} item record(s) "
+              f"from source {args.clear!r}.")
+        return 0
+
+    summary = dbq.inventory_summary(conn)
+    if not summary["parts"] and not summary["items"]:
+        print("Nothing recorded yet.\n")
+        print("Add what you have:")
+        print('  wf own "Rhino Prime Systems"           # a part you hold')
+        print('  wf own --built "Rhino Prime"           # an item you finished')
+        print("\nThe second one is the important one: the game cannot show it.")
+        return 0
+
+    print("Parts held:")
+    for source, (rows, total) in sorted(summary["parts"].items()):
+        print(f"  {source:10s} {rows:5d} kinds, {total or 0:5d} total")
+    print("Items built:")
+    for source, (rows, total) in sorted(summary["items"].items()):
+        print(f"  {source:10s} {rows:5d} kinds, {total or 0:5d} total")
+
+    if args.verbose:
+        print("\nBuilt items:")
+        for row in conn.execute(
+                "SELECT i.name, o.count, o.source, o.updated_at FROM owned_items o "
+                "JOIN items i ON i.unique_name = o.item_unique ORDER BY i.name"):
+            print(f"  {row['name']:34s} x{row['count']}  ({row['source']}, {row['updated_at']})")
+        print("\nParts held:")
+        for row in conn.execute(
+                "SELECT p.name, o.count, o.source FROM owned_parts o "
+                "JOIN parts p ON p.unique_name = o.part_unique ORDER BY p.name"):
+            print(f"  {row['name']:34s} x{row['count']}  ({row['source']})")
+    return 0
+
+
+def cmd_check_grid(args) -> int:
+    """Compare the fitted row pitch against the one the frames actually show.
+
+    The grid model derives its pitch from where the item names sit, so it cannot
+    check itself: an error in the words is an error in the pitch and the two
+    agree by construction. This measures the drawn geometry instead - the gap
+    between tile rows is a band of uniform pixels - and reports the difference.
+
+    Worth a command of its own because the failure it catches is silent. The
+    scroll measurement used to include the static detail pane, which pulled
+    every step slightly towards zero and left the virtual page a percent shorter
+    than the screen. Nothing looked wrong: the crop offset had been calibrated
+    on top of the compression, so the two errors cancelled until something
+    changed scale.
+    """
+    import cv2
+    import numpy as np
+
+    from wft import config
+    from wft.data import db as dbq
+    from wft.inventory import scan as scan_mod
+
+    cfg = config.load()
+    seen: dict[str, object] = {}
+    original = scan_mod._visit_tiles
+
+    def capture(wanted, cells, grid, frame_files, scrolls, handler,
+                pad=0.12, require_full=False):
+        seen.setdefault("grid", grid)
+        seen.setdefault("files", dict(frame_files))
+        return original(wanted, cells, grid, frame_files, scrolls, handler,
+                        pad, require_full)
+
+    scan_mod._visit_tiles = capture
+    connection = dbq.connect(cfg.db_path)
+    print(f"reading {args.video} …")
+    scan_mod.scan(args.video, connection, movement_step=args.step)
+    scan_mod._visit_tiles = original
+
+    grid = seen.get("grid")
+    if grid is None:
+        print("no grid was fitted — nothing to compare")
+        return 1
+
+    # Sample the recording directly; the scan's own frames are gone by now.
+    capture_handle = cv2.VideoCapture(args.video)
+    total = int(capture_handle.get(cv2.CAP_PROP_FRAME_COUNT))
+    measured = []
+    for index in range(total // 10, total, max(1, total // 8)):
+        capture_handle.set(cv2.CAP_PROP_POS_FRAMES, index)
+        ok, frame = capture_handle.read()
+        if not ok:
+            continue
+        height, width = frame.shape[:2]
+        grey = cv2.cvtColor(frame[:, :int(width * 0.68)],
+                            cv2.COLOR_BGR2GRAY).astype(np.float32)
+        spread = grey.std(axis=1)
+        spread = (spread - spread.mean()) / (spread.std() + 1e-9)
+        best = None
+        for pitch in np.arange(340.0, 560.0, 0.5):
+            for phase in np.arange(0.0, pitch, 3.0):
+                rows = np.arange(phase, height, pitch).astype(int)
+                rows = rows[rows < height]
+                if len(rows) < 4:
+                    continue
+                score = -float(spread[rows].mean())
+                if best is None or score > best[0]:
+                    best = (score, float(pitch))
+        if best and best[0] >= 0.30:
+            measured.append(best[1])
+    capture_handle.release()
+
+    if not measured:
+        print("could not measure tile spacing in any frame")
+        return 1
+
+    shown = float(np.median(measured))
+    drift = abs(grid.row_pitch - shown) / shown
+    print(f"  fitted   {grid.row_pitch:7.1f} px")
+    print(f"  measured {shown:7.1f} px   (median of {len(measured)} frames, "
+          f"spread {np.std(measured):.1f})")
+    print(f"  off by   {drift:7.1%}")
+    if drift > 0.01:
+        print("\nFAIL: the model and the frames disagree about how tall a tile "
+              "is. Anything cropped from a frame — stack badges, review "
+              "pictures — is cut in the wrong place.")
+        return 1
+    print("\nok")
+    return 0
+
+
+def cmd_scan(args) -> int:
+    """Read an inventory recording. Shows what it found; writes nothing yet."""
+    from wft.inventory import frames as frames_mod, scan as scan_mod
+
+    cfg = config.load()
+    conn = dbq.connect(cfg.db_path)
+    step = args.step if args.step is not None else frames_mod.MOVEMENT_STEP
+
+    print(f"Reading {Path(args.video).name}")
+    started = time.perf_counter()
+
+    last = [0.0]
+
+    def show(progress):
+        # On a timer, not every nth frame: frames arrive in bursts, so a
+        # frame-count trigger goes quiet during the slow stretches, which is
+        # exactly when it is wanted.
+        now = time.perf_counter()
+        if now - last[0] >= 5.0:
+            last[0] = now
+            print(f"  {progress.describe()}", flush=True)
+
+    result = scan_mod.scan(args.video, conn, movement_step=step, progress=show)
+    elapsed = time.perf_counter() - started
+
+    print(f"\n{result.frames_read} frames in {elapsed / 60:.1f} min")
+    print(f"  words           {result.words_total} "
+          f"({result.words_total - result.words_after_ui_filter} screen-fixed removed)")
+    if result.grid:
+        print(f"  grid            column {result.grid.column_pitch:.0f}px, "
+              f"row {result.grid.row_pitch:.0f}px, fit {result.grid.confidence:.2f}")
+    print(f"  cells           {result.cells_found}")
+    print(f"  recognised      {len(result.candidates)} "
+          f"({len(result.confident)} confident, {len(result.needs_review)} to review)")
+    for note in result.notes:
+        print(f"  note: {note}")
+
+    if args.list:
+        print()
+        print(f"    {'name':38s} {'score':>5} {'held':>5} {'seen':>5}  reading")
+        print(f"    {'-' * 38} {'-' * 5} {'-' * 5} {'-' * 5}  {'-' * 30}")
+        for candidate in sorted(result.candidates, key=lambda c: (c.row, c.column)):
+            flag = "  " if candidate.confident else "? "
+            # "held" is the stack badge and "seen" is how many frames the tile
+            # appeared in. They were one unlabelled "Nx" column, which read as
+            # a quantity and was not one - a tile seen in twelve frames is one
+            # tile. The refinement rides on the name, so two stacks of a relic
+            # are two rows rather than the same row twice.
+            held = "-" if candidate.quantity is None else str(candidate.quantity)
+            print(f"  {flag}{candidate.display_name[:36]:38s} "
+                  f"{candidate.score:5.1f} {held:>5} {candidate.sightings:>5}"
+                  f"  {candidate.reading[:30]!r}")
+
+    print("\nNothing was written. Review and quantities come next; until then this")
+    print("is a measurement of how well the recording reads.")
+    return 0
+
+
+def cmd_doctor(args) -> int:
+    """Check this machine's setup; nothing is changed and nothing is fetched."""
+    from wft import doctor
+    return doctor.main()
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(prog="wf", description="warframe-tracker")
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    update = sub.add_parser("update", help="refresh reference data")
+    update.add_argument("--force", action="store_true", help="re-download unchanged manifests")
+    update.set_defaults(func=cmd_update)
+
+    droptables = sub.add_parser(
+        "droptables", help="refresh vault status from DE's drop tables only")
+    droptables.set_defaults(func=cmd_droptables)
+
+    info = sub.add_parser("info", help="what is known about a part")
+    info.add_argument("name")
+    info.set_defaults(func=cmd_info)
+
+    windows = sub.add_parser("windows", help="list X11 windows")
+    windows.set_defaults(func=cmd_windows)
+
+    shot = sub.add_parser("shot", help="capture the reward regions to check geometry")
+    shot.add_argument("--out", default="./capture-check")
+    shot.add_argument("--rewards", type=int, default=4, choices=[2, 3, 4])
+    shot.set_defaults(func=cmd_shot)
+
+    own = sub.add_parser("own", help="record a part you hold or an item you built")
+    own.add_argument("name")
+    own.add_argument("count", nargs="?", type=int, default=1)
+    own.add_argument("--built", action="store_true",
+                     help="the name is a finished item, not a part")
+    own.set_defaults(func=cmd_own)
+
+    inventory = sub.add_parser("inventory", help="what is recorded, and from where")
+    inventory.add_argument("-v", "--verbose", action="store_true")
+    inventory.add_argument("--clear", metavar="SOURCE",
+                           help="remove everything from one source (manual, video, pick)")
+    inventory.set_defaults(func=cmd_inventory)
+
+    scan = sub.add_parser(
+        "scan",
+        help="read an inventory recording or a folder of screenshots "
+             "(writes nothing)")
+    scan.add_argument("video")
+    # No literal here: the default is `frames.MOVEMENT_STEP`, resolved in
+    # cmd_scan. A copy of it sat here at 46 after the module went to 92, so
+    # the CLI and the GUI read a recording differently for months and a
+    # scan that crashed in one could not be reproduced in the other.
+    scan.add_argument("--step", type=float, default=None,
+                      help="pixels of scrolling between sampled frames "
+                           "(default: what the GUI uses)")
+    scan.add_argument("--list", action="store_true", help="list everything found")
+    scan.set_defaults(func=cmd_scan)
+
+    check_grid = sub.add_parser(
+        "check-grid", help="does the fitted grid match what the frames show")
+    check_grid.add_argument("video")
+    check_grid.add_argument("--step", type=float, default=600.0,
+                            help="movement step; coarser is faster and enough here")
+    check_grid.set_defaults(func=cmd_check_grid)
+
+    doctor = sub.add_parser(
+        "doctor", help="check packages, permissions and data (read-only)")
+    doctor.set_defaults(func=cmd_doctor)
+
+    read = sub.add_parser("read", help="read reward names from images and rank them")
+    read.add_argument("images", nargs="+")
+    read.set_defaults(func=cmd_read)
+
+    args = parser.parse_args()
+    return args.func(args)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

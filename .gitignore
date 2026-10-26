@@ -1,0 +1,60 @@
+# Secrets and machine-specific configuration — never commit
+config.toml
+.env
+.env.*
+*.secret
+
+# Local game data: downloaded manifests, caches, personal inventory.
+# Anchored to the repository root: an unanchored "data/" also matches the
+# wft/data package, which silently kept five source modules out of the
+# repository - including the database builder. A clone died on import.
+/data/
+*.sqlite
+*.sqlite-journal
+*.db
+
+# Captured material: screenshots and recordings are game content and may
+# contain account details. Test fixtures are added deliberately, never in bulk.
+captures/
+*.webm
+*.mp4
+
+# Warframe's own log — contains IP address and e-mail
+EE.log
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Assistant working files
+.claude/
+CLAUDE.md
+AGENTS.md
+
+# Working notes: measurement reports and investigation logs written while
+# something was being figured out. They carry absolute paths from this machine
+# and are addressed to whoever was in the middle of the problem. What survived
+# them is in the project documents, which are written to be read later.
+docs/_raw-*
+
+# Editor and OS
+.idea/
+.vscode/
+*.swp
+*.kate-swp
+.DS_Store
+
+# Release tarballs built by packaging/make-release.sh
+/dist/
+
+# The guide's pictures (packaging/guide_shots.py) and both PDFs
+# (packaging/build_guide.py) are made for each release from the reference
+# data of the machine that builds it, which changes with every game update.
+/GUIDE.pdf
+/PATCHNOTES.pdf

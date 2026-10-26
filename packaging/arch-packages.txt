@@ -1,0 +1,14 @@
+# Required packages on Arch-based systems (Arch, Garuda, EndeavourOS, ...), one
+# per line. Read by install.sh and by `wf doctor` - the only copy of this list.
+# python-numpy comes in as a dependency of python-opencv.
+tesseract
+tesseract-data-eng
+python-opencv
+python-rapidfuzz
+pyside6
+python-pillow
+python-evdev
+xdotool
+xorg-xprop
+# notify-send, for the desktop notification with the recommendation.
+libnotify

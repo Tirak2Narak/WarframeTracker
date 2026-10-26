@@ -1,0 +1,5 @@
+30.0 Sys [Info]: Resource load completed 0x1 (/Temp/OtherPlayer1_X_1) in one pass and 0.0s
+30.05 Game [Info]: Someone loadout loader finished.
+30.06 Sys [Info]: ResourceLoader 0x2 (/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeABronze) Found 25 items to load (0ms)
+300.0 Sys [Info]: VoidProjections: OpenVoidProjectionRewardScreenRMI
+300.2 Sys [Info]: VoidProjections: 000000000000000000000000 gets reward /Lotus/StoreItems/Types/Recipes/Weapons/BratonPrimeBlueprint

@@ -1,0 +1,37 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Warframe Tracker
+GenericName=Warframe inventory and relic companion
+Comment=Ranks Void Fissure rewards against what you already own
+Exec="@EXEC@"
+Path=@PROJECT@
+Icon=@ICON@
+Terminal=false
+Categories=Game;
+# One main category only: listing both Game and Utility makes the entry appear
+# twice in the application menu (desktop-file-validate warns about it).
+Keywords=warframe;relic;void;fissure;inventory;prime;ducats;
+StartupNotify=true
+StartupWMClass=warframe-tracker
+
+# Launching from KRunner asks for the window, so it may come to the front:
+# StartupNotify lets the launcher hand over an activation token, and
+# StartupWMClass matches the app id set in ui/app.py. What the application
+# still never does is bring the window forward on its own when a reward
+# screen appears.
+
+# Uncomment if a capture fallback via KWin's screenshot interface is ever
+# needed. The default path grabs the game's XWayland window directly and
+# requires no portal or D-Bus permission at all.
+# X-KDE-DBUS-Restricted-Interfaces=org.kde.KWin.ScreenShot2
+
+Actions=Scan;Update;
+
+[Desktop Action Scan]
+Name=Import inventory recording
+Exec="@EXEC@" --page import
+
+[Desktop Action Update]
+Name=Update game data
+Exec="@EXEC@" --page settings

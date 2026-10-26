@@ -1,0 +1,21 @@
+# What `git archive` (packaging/make-release.sh) puts into a release tarball.
+# Maintainer-only material stays out; the stamp file gets the commit filled in
+# so an unpacked archive, which has no .git, can still say what it is.
+docs/UI-LAYOUT.md      export-ignore
+tests/                 export-ignore
+# The archive holds GUIDE.pdf and PATCHNOTES.pdf, made from these (the guide
+# and its pictures, and the patch notes); a second copy of the same text next
+# to the PDF could only drift. README.md and CONTRIBUTING.md are for the
+# repository, not for the archive.
+docs/GUIDE.md          export-ignore
+docs/guide/            export-ignore
+README.md              export-ignore
+CONTRIBUTING.md        export-ignore
+PATCHNOTES.md          export-ignore
+packaging/make-release.sh export-ignore
+packaging/guide_shots.py export-ignore
+packaging/build_guide.py export-ignore
+packaging/private_words.py export-ignore
+.gitattributes         export-ignore
+.gitignore             export-ignore
+wft/release_stamp.txt  export-subst
