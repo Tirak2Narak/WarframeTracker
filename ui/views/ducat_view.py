@@ -201,6 +201,8 @@ class DucatView(MarketLookup, QWidget):
                     "SELECT unique_name, count_needed FROM parts "
                     "WHERE item_unique = ? AND alias_of IS NULL",
                     (entry["unique"],)):
+                # The value of one set's own recipe, on purpose: a sum of
+                # what building it takes, not a question of what to keep.
                 total += (dbq.ducats(self.conn, part["unique_name"]) or 0) * int(
                     part["count_needed"])
             priced.append((entry, total))

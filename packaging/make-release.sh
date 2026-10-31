@@ -8,6 +8,11 @@
 #                                          hand-over (2-3 minutes); may run on
 #                                          a dirty tree and on a version not
 #                                          dated yet, never touches dist/
+#   packaging/make-release.sh --allow-skips  tests that skipped checks (no screenshots
+#                                          or game data) still pass, and the build
+#                                          lists them. Automatic in a fresh clone;
+#                                          where tests/fixtures/inventory/expected.json
+#                                          exists, a skip fails the build.
 #
 # Produces dist/warframe-tracker.tar.gz, replacing the one before it only once
 # every check has passed; dist holds that one archive and nothing else. Nothing is
@@ -33,6 +38,7 @@
 # (outside the repository and outside dist). A later run on a clean tree with
 # the same hash and the same list does not repeat the 5 minutes of tests; it
 # says so. --retest runs them anyway, a failed test run deletes the record.
+# A run that had skipped checks is not remembered: it would hide the skips later.
 # --dry-run is for finding stale checks in this script early: use it after
 # changing the script, the guide or the patch notes, before the real build.
 #
@@ -45,7 +51,7 @@ set -euo pipefail
 
 TESTS=(test_badges.py test_droptables.py test_inventory_fixtures.py
        test_ranking.py test_riven.py test_release_skip.py test_trading.py test_profile_fetch.py test_picture_fetch.py
-       test_reference_update.py test_ui_smoke.py)
+       test_reference_update.py test_update_check.py test_ui_smoke.py)
 # Must match the export-ignore lines in .gitattributes.
 EXCLUDED=(docs/GUIDE.md docs/guide docs/UI-LAYOUT.md tests
           packaging/make-release.sh packaging/guide_shots.py
@@ -94,13 +100,21 @@ ROOT=$PWD
 
 RETEST=no
 DRY_RUN=no
+ALLOW_SKIPS=auto
 for arg in "$@"; do
     case "$arg" in
         --retest) RETEST=yes ;;
         --dry-run) DRY_RUN=yes ;;
-        *) printf 'unknown argument: %s (use --dry-run or --retest)\n' "$arg" >&2; exit 2 ;;
+        --allow-skips) ALLOW_SKIPS=yes ;;
+        *) printf 'unknown argument: %s (use --dry-run, --retest or --allow-skips)\n' "$arg" >&2; exit 2 ;;
     esac
 done
+# Skipped checks fail the run where the material exists. expected.json is the
+# marker: it belongs to the checkout that has the screenshots. A fresh clone
+# has neither them nor game data and can only report skips.
+if [ "$ALLOW_SKIPS" = auto ]; then
+    if [ -f tests/fixtures/inventory/expected.json ]; then ALLOW_SKIPS=no; else ALLOW_SKIPS=yes; fi
+fi
 [ "$RETEST$DRY_RUN" != yesyes ] || { echo "--retest and --dry-run exclude each other" >&2; exit 2; }
 started=$SECONDS
 
@@ -162,16 +176,38 @@ elif [ "$RETEST" = no ] && passed_at=$(tests_already_passed); then
 else
     tests_forget
     tests_start=$SECONDS
+    skipped_tests=()
+    skipped_total=0
     for t in "${TESTS[@]}"; do
         t_start=$SECONDS
         if ! python3 "tests/$t" >"$SCRATCH/$t.log" 2>&1; then
             tail -n 30 "$SCRATCH/$t.log" >&2
             fail "tests/$t failed"
         fi
-        echo "ok  $t ($((SECONDS - t_start)) s)"
+        # A test without its material (screenshots, tiles, game data) prints
+        # SKIPPED and exits 0. That is not a pass of those checks.
+        n_skipped=$(grep -c 'SKIPPED' "$SCRATCH/$t.log" || true)
+        if [ "$n_skipped" -gt 0 ]; then
+            echo "SKIPPED  $t ($((SECONDS - t_start)) s): $n_skipped skip line(s), not checked"
+            grep 'SKIPPED' "$SCRATCH/$t.log" | cut -c1-200 | sed 's/^/           /'
+            skipped_tests+=("$t")
+            skipped_total=$((skipped_total + n_skipped))
+        else
+            echo "ok  $t ($((SECONDS - t_start)) s)"
+        fi
     done
-    echo "all ${#TESTS[@]} tests passed in $((SECONDS - tests_start)) s"
-    tests_record_pass
+    if [ "$skipped_total" -gt 0 ]; then
+        if [ "$ALLOW_SKIPS" = no ]; then
+            fail "$skipped_total skip line(s) in ${#skipped_tests[@]} test(s) (${skipped_tests[*]}): this checkout has the screenshots and game data, so a skip is a missing fixture"
+        fi
+        echo "WARNING: ${#skipped_tests[@]} of ${#TESTS[@]} tests skipped checks ($skipped_total SKIPPED line(s): ${skipped_tests[*]})."
+        echo "         Those checks did NOT run here: this checkout has no screenshots or game data."
+        echo "         The checkout that has them runs tests/run_all.py --strict before a release."
+        echo "tests: $((${#TESTS[@]} - ${#skipped_tests[@]})) passed in full, ${#skipped_tests[@]} passed with skips, in $((SECONDS - tests_start)) s"
+    else
+        echo "all ${#TESTS[@]} tests passed in $((SECONDS - tests_start)) s"
+        tests_record_pass
+    fi
 fi
 
 # -- 3. the guide ------------------------------------------------------------

@@ -378,8 +378,11 @@ def _read_at(reward_count, engine, grab, candidates, connection, report,
     what tells one layout from another.
     """
     from wft.ocr import engine as E
+    from wft.data import db as dbq
     from wft.relic import match as M, regions as R, score as S
 
+    # Once per screen, not per card.
+    retained = dbq.retained_counts(connection)
     rewards = []
     clean = 0
     for position in range(1, reward_count + 1):
@@ -443,7 +446,7 @@ def _read_at(reward_count, engine, grab, candidates, connection, report,
         if found.part_unique:
             rewards.append(
                 S.load_reward(connection, found.part_unique, position,
-                              raw, found.score))
+                              raw, found.score, retained=retained))
         else:
             rewards.append(S.Reward(position=position, raw_text=raw))
     return rewards, clean

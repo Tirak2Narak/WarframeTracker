@@ -617,7 +617,7 @@ rows.
 - **Overlays.** The recommendation drawn over the reward screen, and a grid
   over the game's colour palette (see below).
 - **Settings.** Six tabs, like the Collection page: **Appearance** (colours,
-  text size), **Game data** (the data update), **Capture** (the game window,
+  text size), **Game data** (the data update, and the check for a new version of the tool), **Capture** (the game window,
   the hotkey, whether the recommendation also appears as a desktop
   notification, whether the tool keeps a picture of every reward screen, see
   below), **Rewards** (status of the Rewards page, a test capture, the log
@@ -876,6 +876,14 @@ folders named like a date are touched, nothing else in that folder.
   there turns amber when the data is older than 14 days; with the box on that
   only happens when the daily update keeps failing.
   Updating also refreshes which relics are vaulted.
+- **The tool itself:** once a day the tool asks GitHub, where it is published,
+  whether a newer release exists. The box **Look for a new version of the tool
+  by itself, once a day** under Settings, tab Game data, group **Program
+  updates**, turns that off. The button **Check for updates** next to it asks
+  at once, with the box on or off, and answers on the page: that you are up to
+  date, that a version is available, or why it could not check (no connection,
+  or no release published yet). A failed check is not repeated before the next
+  day. Nothing is downloaded or installed.
 - **Inventory:** when your holdings changed outside the tool. The tool counts
   what you confirm with **I took this**, but not what you build, sell or trade
   in the game. Record the inventory again from time to time. A new import
@@ -904,6 +912,14 @@ asks once more before it deletes anything; **Cancel** is the default there.
   starts again and opens the Setup page, as on its first start.
 
 ## How to update
+
+When a newer release exists, the tool says so: a bar across the top of the
+window reads **Version … is available (you have …)**, with a link **Release
+page**. The bar stays until you have installed that version or a later one.
+Nothing is downloaded for you; open the release page, download the archive
+from there and follow the steps below. The tool looks for a new release by
+itself once a day, and the button **Check for updates** (Settings, tab Game
+data) looks at once; both are described under **When to refresh**.
 
 When whoever gave you the tool, or the place you downloaded it from, offers a new archive, its file
 `PATCHNOTES.pdf` lists what changed. To install it:
@@ -1078,10 +1094,13 @@ reads no mouse events at all.
 | Opening Rivens, once per program run | `www-static.warframe.com` | weekly riven trade data |
 | Ducats, I want, I offer: **Look up platinum prices** | `api.warframe.market` | platinum prices, kept for 6 hours |
 | Import, card **Item pictures**: by itself after an applied import and at most once a day, or the circular-arrow button | `content.warframe.com` | item icons |
+| Settings, group **Program updates**: by itself at most once a day, or the button **Check for updates** | `api.github.com` (the public repository's latest release) | the number of the newest release and its web page |
 | Import, card **Mastery from your Warframe profile**, only with an account id entered: by itself at most once a day, or the circular-arrow button | `api.warframe.com/cdn/getProfileViewingData.php` | which items you have ever levelled |
 
 The tool sends no account data anywhere except your account id, and only to
-Warframe's own profile address in the last row, when you have entered one. `docs/DATA-SOURCES.md` describes
+Warframe's own profile address in the last row, when you have entered one.
+The request to GitHub carries no data about you; switch the daily check off with
+the box under **Program updates** and the tool asks GitHub only when you press the button. `docs/DATA-SOURCES.md` describes
 each source and its terms.
 
 ## Remove the tool

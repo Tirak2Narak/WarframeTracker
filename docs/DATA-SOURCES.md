@@ -351,3 +351,23 @@ on the host) is skipped and the run goes on; any other failure (no connection, a
 timeout, 403, 429, 5xx) ends the run, and the next automatic one comes 24 hours
 after it began; for those 24 hours an applied import starts no run either
 (`pictures.refused_recently`). Only the button asks anyway.
+
+---
+
+## 11. Releases — GitHub's "latest release"
+
+`https://api.github.com/repos/BriskWatchdogz1/WarframeTracker/releases/latest`
+(`[updates] url`). One GET, 30 s timeout, no second attempt, the tool's user
+agent (`wft/updatecheck.py`). Read by hand once on 2026-10-31: status 200,
+a JSON object with `tag_name` (`v1.5`), `html_url` (the release page), `draft`
+and `prerelease` (both false); only the first two are used. The tag is compared
+as numbers with the running version (`wft/whatsnew.py`); a newer one is kept in
+`meta` and shown as a notice, an equal or older one is silent.
+
+The tool asks by itself (`[updates] auto_check`, default on) at most once in 24
+hours counted from the last request of any kind, the button **Check for
+updates** included. Each request is one row in `fetch_log` (job `update`). Any
+failure (no connection, 403, 429, 404 while no release is published, an answer
+that is not the expected JSON) changes nothing and is not repeated for 24 hours;
+only the button asks anyway. Nothing is downloaded or installed.
+

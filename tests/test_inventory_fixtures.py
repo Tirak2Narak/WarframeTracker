@@ -1,8 +1,11 @@
 """Measure how much of a real inventory screen the pipeline reads.
 
-The point is not to pass. It is to produce a number that can be compared after
-a change. Without this, a regression from 15 names read to 1 is invisible until
-someone happens to look — which is exactly what happened during development.
+It produces a number that can be compared after a change, and it fails when
+the number drops below a floor (or rises above a ceiling) set just short of
+today's measurement - see MIN_READ_RATE and the lines after it. Without this, a
+regression from 15 names read to 1 is invisible until someone happens to look,
+which is exactly what happened during development. The pitch table at the end
+is only reported (see `check_pitch`).
 
 Expected values in `expected.json` were read off the images by hand, not
 produced by this code. A fixture generated from the implementation would only
@@ -31,6 +34,19 @@ from wft.relic import match as match_mod                  # noqa: E402
 from rapidfuzz import fuzz, process                       # noqa: E402
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures" / "inventory"
+
+# The limits below were set on 2026-10-29 from this test's own output over the 6
+# frames in expected.json: 39 of 51 tracked tiles read (76%), 7 rows from 65
+# untracked tiles (11%), 1 of those accepted without review (frame crop_a.png).
+# Each limit sits just short of that, so one more lost tile or one more wrong
+# row fails, and a real regression cannot hide. They are measured, not derived:
+# when the reader or the fixtures change on purpose, measure again and move them.
+#: Share of tracked tiles that must be read.
+MIN_READ_RATE = 0.75
+#: Share of untracked tiles (ore, gear) that may still produce a row.
+MAX_ROW_RATE = 0.13
+#: Rows accepted without review that are wrong - a wrong number in the database.
+MAX_ACCEPTED_WRONG = 1
 
 
 def read_frame(image, names: list[str], ignored: list[str],
@@ -194,6 +210,7 @@ def main() -> int:
     for filename, spec in sorted(expected.items()):
         image_path = FIXTURES / filename
         if not image_path.is_file():
+            print(f"SKIPPED: frame {filename} is in expected.json and not in {FIXTURES}")
             continue
         image = cv2.imread(str(image_path))
         found = read_frame(image, names, ignored, decoy_words)
@@ -253,7 +270,29 @@ def main() -> int:
           f"{total_spurious_confident} were accepted without review ({kept:.0%}).")
     print("A row that goes to the review is a question; one accepted without "
           "review is a wrong number in the database.")
-    return check_pitch(names)
+    check_pitch(names)
+
+    failures = []
+    if total_tracked == 0:
+        failures.append("no frame was measured")
+    else:
+        if overall < MIN_READ_RATE:
+            failures.append(f"read rate {overall:.1%} is under the floor "
+                            f"{MIN_READ_RATE:.0%} ({matched} of {total_tracked})")
+        if noise > MAX_ROW_RATE:
+            failures.append(f"untracked tiles that produced a row: {noise:.1%} is over "
+                            f"the ceiling {MAX_ROW_RATE:.0%} ({total_spurious} of "
+                            f"{total_untracked})")
+        if total_spurious_confident > MAX_ACCEPTED_WRONG:
+            failures.append(f"{total_spurious_confident} wrong rows accepted without "
+                            f"review, at most {MAX_ACCEPTED_WRONG} allowed")
+    print()
+    for failure in failures:
+        print(f"FAIL: {failure}")
+    if not failures:
+        print(f"limits kept: read rate >= {MIN_READ_RATE:.0%}, rows from untracked "
+              f"tiles <= {MAX_ROW_RATE:.0%}, wrong rows accepted <= {MAX_ACCEPTED_WRONG}")
+    return 1 if failures else 0
 
 
 if __name__ == "__main__":

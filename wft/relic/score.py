@@ -162,6 +162,13 @@ class Reward:
     own_chance: float = 0.0             # chance from the relics already held
     owned_count: int = 0                # copies of the part in the inventory
     count_needed: int = 1               # copies the recipe asks for
+    #: Copies the whole recipe chain keeps (`db.retained_counts`), 0 when not
+    #: asked. Higher than `count_needed` when a set above still wants copies
+    #: of the item this part belongs to (Akvasto Prime wants 2 Vasto Prime, so
+    #: its Barrel is wanted twice while neither is mastered).
+    keep_needed: int = 0
+    #: Names of the sets above that raise the floor, for the card's reason.
+    chain_wants: list[str] = field(default_factory=list)
     item_built: int = 0                 # finished copies of the item it belongs to
     still_needed_for: list[str] = field(default_factory=list)  # items consuming this one
     set_owned: int = 0                  # distinct set pieces already held
@@ -180,6 +187,14 @@ class Reward:
     reasons: list[str] = field(default_factory=list)
 
     @property
+    def copies_wanted(self) -> int:
+        """Copies of this part the player should hold: the recipe's count or
+        what the chain above keeps, whichever is higher, never below 1.
+        A chain floor of 0 (released) does not lower it, so a mastered set's
+        part stays on the card."""
+        return max(1, self.count_needed, self.keep_needed)
+
+    @property
     def is_missing(self) -> bool:
         """Whether this part is still wanted.
 
@@ -191,7 +206,7 @@ class Reward:
         being announced as already owned, which is exactly the wrong answer in
         the fifteen seconds this is for.
         """
-        if self.owned_count >= max(1, self.count_needed):
+        if self.owned_count >= self.copies_wanted:
             return False
         if self.item_built > 0 and not self.still_needed_for:
             return False
@@ -285,6 +300,14 @@ def classify(reward: Reward) -> Reward:
         }.get(reward.reach, Tier.MISSING_FARMABLE)
 
         reward.reasons.append("missing")
+        if reward.owned_count > 0 and reward.copies_wanted > 1:
+            reward.reasons.append(
+                f"owned {reward.owned_count}/{reward.copies_wanted}")
+        if reward.chain_wants and reward.keep_needed > reward.count_needed:
+            reward.reasons.append(
+                f"{reward.chain_wants[0]} wants {reward.keep_needed}"
+                if reward.item_built == 0 else
+                f"needed for {reward.chain_wants[0]}")
         if reward.item_built > 0 and reward.still_needed_for:
             # Built already, but another recipe eats it — keep, and say why.
             reward.reasons.append(f"needed for {reward.still_needed_for[0]}")
@@ -313,8 +336,8 @@ def classify(reward: Reward) -> Reward:
         # game cannot tell the player, so it is worth spelling out.
         if reward.owned_count > 0:
             headline_reason = "owned"
-            if reward.count_needed > 1:
-                headline_reason = f"owned {reward.owned_count}/{reward.count_needed}"
+            if reward.copies_wanted > 1:
+                headline_reason = f"owned {reward.owned_count}/{reward.copies_wanted}"
             elif reward.owned_count > 1:
                 headline_reason = f"owned x{reward.owned_count}"
         else:
@@ -517,7 +540,8 @@ def rank(rewards: list[Reward], order: RankingOrder | None = None) -> Verdict:
 
 
 def load_reward(connection, part_unique: str, position: int, raw_text: str,
-                confidence: float = 1.0) -> Reward:
+                confidence: float = 1.0,
+                retained: dict[str, int] | None = None) -> Reward:
     """Fill a Reward from the database.
 
     Everything goes through `wft.data.db`, which resolves the alias group. A
@@ -529,6 +553,11 @@ def load_reward(connection, part_unique: str, position: int, raw_text: str,
     row = dbq.part_row(connection, part_unique)
     if row is None:
         return Reward(position=position, raw_text=raw_text)
+    # The same floor Open next and the relic dialog use (`openings.needed`).
+    # Callers that load several rewards compute it once and pass it in.
+    if retained is None:
+        retained = dbq.retained_counts(connection)
+    keep = int(retained.get(dbq.canonical(connection, part_unique), 0))
 
     reach, active, own_chance = dbq.reachability(connection, part_unique)
     item_unique = row["item_unique"]
@@ -556,6 +585,9 @@ def load_reward(connection, part_unique: str, position: int, raw_text: str,
         reach=reach, active_relics=active, own_chance=own_chance,
         owned_count=dbq.owned_count(connection, part_unique),
         count_needed=row["count_needed"] if "count_needed" in row.keys() else 1,
+        keep_needed=keep,
+        chain_wants=([r["name"] for r in dbq.needed_as_ingredient(connection, item_unique)]
+                     if item_unique and keep > int(row["count_needed"] or 1) else []),
         item_built=built, still_needed_for=consumers,
         set_owned=held, set_total=total, set_missing=missing,
         match_confidence=confidence,

@@ -335,6 +335,19 @@ account_id = ""
 auto_fetch = true
 
 
+[updates]
+# The tool looks, by itself, whether a newer release of it exists: one request
+# to the address below (the public repository's latest release on GitHub; only
+# the version number and the release page are read), at most once in 24 hours,
+# counted from the last request of any kind (the "Check for updates" button on
+# the Settings page counts too). A failed request is not repeated; the next
+# automatic one comes 24 hours later. Nothing is downloaded or installed: a
+# newer release shows as a notice with a link, and installing it is up to you.
+# Set to false to look only with the button. The button works either way.
+auto_check = true
+url = "https://api.github.com/repos/BriskWatchdogz1/WarframeTracker/releases/latest"
+
+
 [pictures]
 # The item pictures come from Warframe's own content host, one request per
 # picture, only for things you hold, each picture once. With this on, the tool

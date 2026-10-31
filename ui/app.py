@@ -429,7 +429,7 @@ def _tidy_kept_pictures(cfg) -> None:
 
 
 def build_scheduler(cfg, app, window):
-    """The clock with its jobs, in order: profile, reference data, pictures.
+    """The clock with its jobs, in order: profile, reference data, pictures, update check.
 
     Not started here: `main` starts it, and only outside `--self-test`. A
     function of its own so a test can build exactly what `main` builds; the
@@ -441,6 +441,7 @@ def build_scheduler(cfg, app, window):
     from ui.workers.picture_fetch import shared as picture_fetcher
     from ui.workers.profile_fetch import shared as profile_fetcher
     from ui.workers.reference_update import ScheduledReference
+    from ui.workers.update_check import shared as update_checker
 
     scheduler = Scheduler(window)
     fetcher = profile_fetcher(cfg)
@@ -452,6 +453,9 @@ def build_scheduler(cfg, app, window):
     pictures_job = picture_fetcher(cfg)
     scheduler.add(pictures_job)
     app.aboutToQuit.connect(pictures_job.wait)
+    update_job = update_checker(cfg)
+    scheduler.add(update_job)
+    app.aboutToQuit.connect(update_job.wait)
     return scheduler
 
 

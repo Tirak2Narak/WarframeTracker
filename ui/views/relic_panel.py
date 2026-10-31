@@ -537,6 +537,8 @@ class RelicPanel(QWidget):
                     "SELECT name, count_needed, unique_name FROM parts "
                     "WHERE item_unique = ? AND alias_of IS NULL",
                     (row["unique_name"],)):
+                # One set's own recipe, on purpose: this lists sets close to
+                # done, by what their own recipe still lacks.
                 owing = part["count_needed"] - dbq.crafting_stock(
                     connection, part["unique_name"])
                 if owing > 0:

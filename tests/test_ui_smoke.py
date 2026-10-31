@@ -483,7 +483,7 @@ def _check_review_keys_stay_on_the_list(app, cfg, problems: list) -> None:
 
     fixture = pathlib.Path(__file__).resolve().parent / "fixtures" / "scan.pickle"
     if not fixture.exists():
-        print("review keys        : skipped, no scan fixture")
+        print("SKIPPED: review keys, no scan fixture (tests/fixtures/scan.pickle)")
         return
     from PySide6.QtCore import Qt
     from PySide6.QtTest import QTest
@@ -1674,7 +1674,7 @@ def _check_review_is_one_shape(app, cfg, problems: list) -> None:
 
     fixture = pathlib.Path(__file__).resolve().parent / "fixtures" / "scan.pickle"
     if not fixture.exists():
-        print("review shape       : skipped, no scan fixture")
+        print("SKIPPED: review shape, no scan fixture (tests/fixtures/scan.pickle)")
         return
     from ui.views.import_view import ImportView
 
@@ -13610,11 +13610,9 @@ def _check_a_run_without_an_id_asks_nobody(app, problems: list) -> None:
         _wait_fetch(app, fetcher)
         if server.calls or fetcher.busy:
             problems.append("no id: a request was made or waited for")
-        import ui.app as app_mod
-        source = pathlib.Path(app_mod.__file__).read_text()
-        guard = source.index("scheduler = build_scheduler(")
-        if "if not args.self_test:" not in source[guard - 300:guard]:
-            problems.append("no id: the scheduler is not behind the self-test guard")
+        built, detail = _self_test_builds_a_clock()
+        if built:
+            problems.append(f"no id: the self-test builds the scheduler ({detail})")
         print("no id              : no request, nothing waited for")
     finally:
         urllib.request.urlopen, profile_fetch_mod.request = saved
@@ -13947,14 +13945,57 @@ def _check_the_pictures_card_and_the_import(app, problems: list) -> None:
         conn.close()
 
 
+_SELF_TEST_CLOCK_RESULT: list = []
+
+
+def _self_test_builds_a_clock() -> tuple[bool, str]:
+    """Run the real `wf-gui --self-test` start and say whether it built the scheduler.
+
+    The program's own `main` runs in a child process with `ui.app.build_scheduler`
+    replaced by a stand-in that leaves a marker file. If `main` calls it, the
+    marker appears: a clock that fetches profile, data and pictures by itself
+    would then start in the guide's pictures and in this very test. Reading the
+    source for `if not args.self_test:` once passed while the program was broken
+    (the file says so further down, at "reference start"), so this watches the
+    behaviour. Returns (built, detail); the child runs once and the answer is kept.
+    """
+    import subprocess
+
+    if _SELF_TEST_CLOCK_RESULT:
+        return _SELF_TEST_CLOCK_RESULT[0]
+    home = tempfile.mkdtemp(prefix="wft-clock-")
+    try:
+        marker = os.path.join(home, "scheduler-built")
+        env = dict(os.environ, HOME=home, XDG_CONFIG_HOME=os.path.join(home, "c"),
+                   XDG_DATA_HOME=os.path.join(home, "d"), QT_QPA_PLATFORM="offscreen",
+                   WFT_TEST_MARKER=marker)
+        root = pathlib.Path(__file__).resolve().parent.parent
+        code = ("import os, sys; sys.path.insert(0, %r); from ui import app; "
+                "assert hasattr(app, 'build_scheduler'), 'main no longer has build_scheduler to watch'; "
+                "app.build_scheduler = lambda *a, **k: open(os.environ['WFT_TEST_MARKER'], 'w').close(); "
+                "sys.exit(app.main(['--self-test']))" % str(root))
+        done = subprocess.run([sys.executable, "-c", code], env=env,
+                              capture_output=True, text=True, timeout=240)
+        built = os.path.exists(marker)
+        if "SELF-TEST OK" not in done.stdout:
+            result = (True, f"the self-test did not finish (exit {done.returncode}, "
+                            f"stdout {done.stdout.strip()[-60:]!r}, "
+                            f"stderr {done.stderr.strip()[-300:]!r})")
+        else:
+            result = (built, "build_scheduler was called by the self-test" if built else "")
+    finally:
+        shutil.rmtree(home, ignore_errors=True)
+    _SELF_TEST_CLOCK_RESULT.append(result)
+    return result
+
+
 def _check_the_pictures_run_asks_nobody_at_the_release_start(app, problems: list) -> None:
     """--self-test and the guide's pictures build no clock, so no run starts."""
     import ui.app as app_mod
 
-    source = pathlib.Path(app_mod.__file__).read_text()
-    guard = source.index("scheduler = build_scheduler(")
-    if "if not args.self_test:" not in source[guard - 300:guard]:
-        problems.append("pictures release start: the scheduler is not behind the self-test guard")
+    built, detail = _self_test_builds_a_clock()
+    if built:
+        problems.append(f"pictures release start: the self-test builds the scheduler ({detail})")
     shots = pathlib.Path(app_mod.__file__).parent.parent / "packaging" / "guide_shots.py"
     text = shots.read_text()
     if "Scheduler" in text or "ui.scheduler" in text:
@@ -14059,6 +14100,86 @@ def _check_the_reference_card_has_a_saved_switch_and_says_when(app, problems: li
         page.close()
 
 
+def _check_the_update_notice_button_and_switch(app, problems: list) -> None:
+    """The button asks once, the notice shows a newer release, the switch is saved."""
+    import json as _json
+
+    import ui.app as app_mod
+    from ui import settings_io
+    from wft import version as version_mod
+    from wft.profile import fetch as fetch_mod
+
+    cfg = _setup_cfg(True, "")
+    cfg.override("updates.auto_check", True)
+    _app, window = app_mod.build_application(cfg, "Settings")
+    real = fetch_mod.request
+    asked = []
+    answer = {}
+
+    def fake(url):
+        asked.append(url)
+        return fetch_mod.Fetched(200, _json.dumps(answer).encode(), {})
+
+    fetch_mod.request = fake
+    try:
+        page = window._pages["Settings"]
+        page.show_tab("Game data")
+        window.show()
+        _settle(app)
+        if window.update_banner.isVisible():
+            problems.append("update notice: shown before any check")
+        if not page.update_check_box.isChecked() or not page.update_check_btn.isEnabled():
+            problems.append("update notice: the switch is not on by default")
+        # Switch off: stored, and the button still asks.
+        target = settings_io.target_config_path()
+        page.update_check_box.setChecked(False)
+        text = target.read_text() if target.is_file() else ""
+        if cfg.get("updates.auto_check", True) is not False or "auto_check = false" not in text:
+            problems.append("update notice: switching off was not stored")
+        # Up to date: said on the page, no notice.
+        answer.update(tag_name="v" + version_mod.number(),
+                      html_url="https://example.invalid/releases/tag/same")
+        page.update_check_btn.click()
+        page.update_checker.wait()
+        for _ in range(20):
+            app.processEvents()
+        if len(asked) != 1 or "up to date" not in page.update_check_label.text():
+            problems.append(f"update notice, current: {len(asked)} request(s), "
+                            f"{page.update_check_label.text()!r}")
+        if window.update_banner.isVisible():
+            problems.append("update notice: shown for the version in use")
+        # Newer: the notice with its number, the link and the guide's heading.
+        answer.update(tag_name="v99.1", html_url="https://example.invalid/releases/tag/new")
+        page.update_check_btn.click()
+        page.update_checker.wait()
+        for _ in range(20):
+            app.processEvents()
+        banner = window.update_banner
+        if not (banner.isVisible() and "99.1" in banner.text()
+                and "https://example.invalid/releases/tag/new" in banner.text()
+                and "How to update" in banner.text()):
+            problems.append(f"update notice, newer: {banner.isVisible()} {banner.text()!r}")
+        if "99.1" not in page.update_check_label.text():
+            problems.append(f"update notice, page: {page.update_check_label.text()!r}")
+        # A failure keeps the notice and says so on the page.
+        fetch_mod.request = lambda url: fetch_mod.Fetched(404, b"", {}, "HTTP 404")
+        page.update_check_btn.click()
+        page.update_checker.wait()
+        for _ in range(20):
+            app.processEvents()
+        if not banner.isVisible() or "Could not check" not in page.update_check_label.text():
+            problems.append(f"update notice, failure: {page.update_check_label.text()!r}")
+        # A restart: a window built later shows the notice from the database.
+        _app2, again = app_mod.build_application(cfg, "Settings")
+        if again.update_banner.isHidden() or "99.1" not in again.update_banner.text():
+            problems.append("update notice: not shown after a restart")
+        again.close()
+    finally:
+        fetch_mod.request = real
+        window.close()
+    print("update notice      : button, notice, link and the saved switch")
+
+
 def theme_warn() -> str:
     from ui import theme
 
@@ -14072,10 +14193,9 @@ def _check_the_reference_update_is_started_only_by_the_running_application(app, 
     from ui.views.settings_view import UpdateJob
     from ui.workers.reference_update import ScheduledReference
 
-    source = pathlib.Path(app_mod.__file__).read_text()
-    guard = source.index("scheduler = build_scheduler(")
-    if "if not args.self_test:" not in source[guard - 300:guard]:
-        problems.append("reference start: the scheduler is not behind the self-test guard")
+    built, detail = _self_test_builds_a_clock()
+    if built:
+        problems.append(f"reference start: the self-test builds the scheduler ({detail})")
     # Built for real, the way `main` builds it, over a whole window: reading
     # the code as text passed while `main` named a variable that only existed
     # in `build_application`, and the running tool started with no clock.
@@ -14090,9 +14210,10 @@ def _check_the_reference_update_is_started_only_by_the_running_application(app, 
         before = app.receivers(SIGNAL("aboutToQuit()"))
         clock = app_mod.build_scheduler(built_cfg, app, built_window)
         kinds = [type(job).__name__ for job in clock.jobs]
-        if kinds != ["ProfileFetcher", "ScheduledReference", "PictureFetcher"]:
+        if kinds != ["ProfileFetcher", "ScheduledReference", "PictureFetcher",
+                         "UpdateChecker"]:
             problems.append(f"reference start: the clock holds {kinds}, wanted "
-                            "profile, reference, pictures")
+                            "profile, reference, pictures, update check")
         elif not (isinstance(clock.jobs[0], ProfileFetcher)
                   and isinstance(clock.jobs[2], PictureFetcher)
                   and clock.jobs[1].job is built_window.update_job):
@@ -14100,9 +14221,9 @@ def _check_the_reference_update_is_started_only_by_the_running_application(app, 
                             "window's one shared update job")
         if clock._timer.isActive():
             problems.append("reference start: building the clock started it")
-        if app.receivers(SIGNAL("aboutToQuit()")) - before != 3:
+        if app.receivers(SIGNAL("aboutToQuit()")) - before != 4:
             problems.append("reference start: quitting does not wait for all "
-                            "three jobs")
+                            "four jobs")
     finally:
         built_window.close()
     # A page, the clock built but not started, an update job: nothing runs.
@@ -14225,6 +14346,7 @@ def main() -> int:
     _timed(_check_the_pictures_run_asks_nobody_at_the_release_start, app, problems)
     _timed(_check_the_reference_card_has_a_saved_switch_and_says_when, app, problems)
     _timed(_check_the_reference_update_is_started_only_by_the_running_application, app, problems)
+    _timed(_check_the_update_notice_button_and_switch, app, problems)
     _timed(_check_no_hotkey_is_assumed, problems)
     _timed(_check_the_setup_page_shows_each_state, app, problems)
     _timed(_check_the_download_button_runs_the_shared_update, app, problems)

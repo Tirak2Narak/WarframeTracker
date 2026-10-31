@@ -3,6 +3,20 @@
 The changes worth knowing about, newest first. How everything works now is in
 GUIDE.pdf.
 
+## 1.5.1 — 2026-10-31
+
+Replaces 1.5 (2026-10-28).
+
+- **The reward card counts what the whole chain wants.** A Vasto Prime Barrel
+  held once was shown as owned although Akvasto Prime asks for 2 Vasto Prime;
+  the card now says "owned 1/2" and which set wants the copies, the same answer
+  Open next gives.
+- **The tool tells you when a newer version exists.** Once a day it asks GitHub
+  for the number of the newest release (nothing else is sent, nothing is
+  downloaded); a newer one shows as a bar across the top with a link to the
+  release page. Under Settings, Game data, Program updates, a box turns the
+  daily look off and **Check for updates** looks at once.
+
 ## 1.5 — 2026-10-28
 
 Replaces 1.3 (2026-10-23).

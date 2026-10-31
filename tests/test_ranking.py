@@ -173,7 +173,7 @@ def check_needed_rule() -> list[str]:
 
     from wft.data import db as dbq
     from wft.relic import openings
-    from wft.relic.score import load_reward
+    from wft.relic.score import classify, load_reward
 
     problems = []
     home = pathlib.Path(tempfile.mkdtemp())
@@ -257,6 +257,32 @@ def check_needed_rule() -> list[str]:
     pair(c, "vasto", 0, 1, outer_mastered=1)
     reward = load_reward(c, "P:vasto-r", 1, "Vasto Prime Receiver")
     expect("mastered set part stays missing", reward.is_missing, True)
+    # Vasto-like: Akvasto Prime wants 2 Vasto Prime, neither built or mastered,
+    # 1 Barrel held. The card must say 1/2 and needed, not OWNED.
+    c = new("vastochain")
+    pair(c, "vasto", 0, 0)
+    c.execute("INSERT INTO owned_parts(part_unique, count, source) "
+              "VALUES('P:vasto-r', 1, 'test')")
+    c.commit()
+    reward = load_reward(c, "P:vasto-r", 1, "Vasto Prime Receiver")
+    expect("Vasto chain, 1 of 2 is still missing", reward.is_missing, True)
+    expect("Vasto chain, copies wanted", reward.copies_wanted, 2)
+    classify(reward)
+    if "owned 1/2" not in reward.reasons or \
+            "Akvasto Prime wants 2" not in reward.reasons:
+        problems.append(f"Vasto chain: reasons {reward.reasons}")
+    expect("Vasto chain, same answer as Open next",
+           openings.needed(c, "P:vasto-r"), reward.is_missing)
+    # Counter-case: both sets mastered, the one held copy is not needed.
+    c = new("vastodone")
+    pair(c, "vasto", 0, 1, outer_mastered=1)
+    c.execute("INSERT INTO owned_parts(part_unique, count, source) "
+              "VALUES('P:vasto-r', 1, 'test')")
+    c.commit()
+    reward = load_reward(c, "P:vasto-r", 1, "Vasto Prime Receiver")
+    expect("Vasto done, one copy covers it", reward.is_missing, False)
+    expect("Vasto done, same answer as Open next",
+           openings.needed(c, "P:vasto-r"), reward.is_missing)
     # rank() on a shelf: the relic with only the Bronco-like part vanishes.
     c = new("shelf")
     pair(c, "bronco", 0, 1, outer_mastered=1)

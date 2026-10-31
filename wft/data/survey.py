@@ -48,6 +48,9 @@ def set_survey(conn: sqlite3.Connection, include_unstarted: bool = False) -> lis
         for part in ([] if built else conn.execute(
                 "SELECT unique_name, name, count_needed FROM parts "
                 "WHERE item_unique=? AND alias_of IS NULL", (row["unique_name"],))):
+            # The set's own recipe, on purpose: this is the shopping
+            # list of one set. A copy another set above wants is asked for in
+            # that set's row, as the item it consumes.
             short = part["count_needed"] - dbq.crafting_stock(conn, part["unique_name"])
             if short > 0:
                 vaulted, _share = dbq.vault_state(conn, part["unique_name"])

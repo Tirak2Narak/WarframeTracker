@@ -348,4 +348,11 @@ are mandatory for every release; after they have passed, the script remembers
 the git tree (`git rev-parse HEAD^{tree}`), the time and the test list in
 `${XDG_CACHE_HOME:-~/.cache}/warframe-tracker/release-tests-passed` and does not
 repeat them for the same clean tree, saying so. `--retest` runs them anyway; a
-failed run deletes the record.
+failed run deletes the record. A test without its
+material (screenshots, tiles, game data) prints `SKIPPED` and ends with 0; the
+script lists those lines, warns that the checks did not run, and does not
+remember such a run. In a checkout that has `tests/fixtures/inventory/expected.json`
+(the one the pictures belong to) a skip fails the build; in a fresh clone, which
+cannot have that file, the build goes on and says so (`--allow-skips` asks for
+the same elsewhere). Before a release the checkout with the pictures runs
+`python3 tests/run_all.py --strict`.

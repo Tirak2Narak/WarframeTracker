@@ -349,6 +349,9 @@ class LibraryView(QWidget):
             owned, held = held_text(self.conn, part["unique_name"])
             is_vaulted, share = dbq.vault_state(self.conn, part["unique_name"])
             badge_text, badge_color = _vault_badge(is_vaulted, share)
+            # Progress of this recipe, on purpose: the table is one set's
+            # parts against its own recipe. "Is another set still asking for
+            # copies" is answered by the reward card and Open next.
             short = max(0, part["count_needed"] - owned)
             missing_total += short
 

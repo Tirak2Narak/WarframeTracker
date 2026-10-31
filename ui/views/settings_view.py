@@ -250,7 +250,7 @@ class SettingsView(QWidget):
         # the window. The Rewards page keeps its layout (`rewards_layout`) so a
         # later group can be appended to it.
         self._tab("Appearance", [self._appearance_group()])
-        self._tab("Game data", [self._data_group()])
+        self._tab("Game data", [self._data_group(), self._updates_group()])
         self._tab("Capture", [self._capture_group(), self._pictures_group()])
         self.rewards_layout = self._tab(
             "Rewards", [self._relic_status_group(), self._ranking_group()])
@@ -476,6 +476,74 @@ class SettingsView(QWidget):
         v.addWidget(self.log_view)
 
         return group
+
+    def _updates_group(self) -> QGroupBox:
+        """Whether a newer release of the tool exists: a switch and a button."""
+        from ui.workers import update_check
+        from wft import updatecheck
+
+        group = QGroupBox("Program updates")
+        v = QVBoxLayout(group)
+        self.update_check_box = QCheckBox(
+            "Look for a new version of the tool by itself, once a day")
+        self.update_check_box.setChecked(updatecheck.enabled(self.cfg))
+        self.update_check_box.toggled.connect(self._set_update_check)
+        v.addWidget(self.update_check_box)
+        note = QLabel("This asks GitHub, where the tool is published, for the "
+                      "number of the newest release - one request, nothing is "
+                      "sent about you, nothing is downloaded or installed. "
+                      "When there is a newer one, a notice with a link "
+                      "appears at the top of the window.")
+        note.setWordWrap(True)
+        note.setStyleSheet(theme.text("small", theme.TEXT_DIM))
+        v.addWidget(note)
+        row = QHBoxLayout()
+        self.update_check_btn = QPushButton("Check for updates")
+        self.update_check_btn.clicked.connect(self._check_for_updates)
+        row.addWidget(self.update_check_btn)
+        row.addStretch(1)
+        v.addLayout(row)
+        self.update_check_label = QLabel("")
+        self.update_check_label.setWordWrap(True)
+        v.addWidget(self.update_check_label)
+        self.update_checker = update_check.shared(self.cfg)
+        self.update_checker.started.connect(self._update_check_started)
+        self.update_checker.finished.connect(self._update_check_finished)
+        self.update_check_btn.setEnabled(not self.update_checker.busy)
+        return group
+
+    def _set_update_check(self, on: bool) -> None:
+        settings_io.save_value(self.cfg, "updates", "auto_check", bool(on))
+
+    def _check_for_updates(self) -> None:
+        if not self.update_checker.start("manual"):
+            self.update_check_label.setText("Could not start a check.")
+            self.update_check_label.setStyleSheet(f"color: {theme.WARN};")
+
+    def _update_check_started(self) -> None:
+        self.update_check_btn.setEnabled(False)
+        self.update_check_label.setText("Checking...")
+        self.update_check_label.setStyleSheet("")
+
+    def _update_check_finished(self, result: dict) -> None:
+        self.update_check_btn.setEnabled(True)
+        # An automatic check says nothing here; the notice at the top is its voice.
+        if not result.get("manual"):
+            return
+        from wft import version as version_mod
+
+        kind = result["kind"]
+        if kind == "newer":
+            text, colour = (f"Version {result['version']} is available "
+                            f"(you have {version_mod.number()}). See the "
+                            "notice at the top of the window.", theme.GOOD)
+        elif kind == "current":
+            text, colour = (f"You are up to date: {version_mod.number()}.",
+                            theme.GOOD)
+        else:
+            text, colour = (f"Could not check: {result['message']}.", theme.WARN)
+        self.update_check_label.setText(text)
+        self.update_check_label.setStyleSheet(f"color: {colour};")
 
     def _capture_group(self) -> QGroupBox:
         group = QGroupBox("Capture")

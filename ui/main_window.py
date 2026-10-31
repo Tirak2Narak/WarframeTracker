@@ -7,6 +7,7 @@ page by itself: only a keypress or a click switches it.
 """
 from __future__ import annotations
 
+import html
 import sys
 
 from PySide6.QtGui import QIcon
@@ -17,7 +18,8 @@ from PySide6.QtWidgets import (
 )
 
 
-from ui import geometry as _geometry
+from ui import geometry as _geometry, theme
+from wft.data import db as dbq
 from ui.widgets.ticker import TickerLabel
 
 
@@ -123,7 +125,22 @@ class MainWindow(QMainWindow):
         splitter.addWidget(self._build_sidebar())
 
         self.stack = QStackedWidget()
-        splitter.addWidget(self.stack)
+        # The notice of a newer release sits above whatever page is
+        # shown, so it is seen without looking for it.
+        right = QWidget()
+        right_layout = QVBoxLayout(right)
+        right_layout.setContentsMargins(0, 0, 0, 0)
+        right_layout.setSpacing(0)
+        self.update_banner = QLabel()
+        self.update_banner.setObjectName("UpdateBanner")
+        self.update_banner.setWordWrap(True)
+        self.update_banner.setTextFormat(Qt.RichText)
+        self.update_banner.setOpenExternalLinks(True)
+        self.update_banner.setContentsMargins(12, 6, 12, 6)
+        self.update_banner.setVisible(False)
+        right_layout.addWidget(self.update_banner)
+        right_layout.addWidget(self.stack, 1)
+        splitter.addWidget(right)
         splitter.setStretchFactor(0, 0)
         splitter.setStretchFactor(1, 1)
         splitter.setSizes([220, 1180])
@@ -136,6 +153,41 @@ class MainWindow(QMainWindow):
         self.statusBar().addWidget(self.ticker, 1)
         self._refresh_status()
         self._build_catalogue_if_missing()
+        self._wire_update_banner()
+
+    def _wire_update_banner(self) -> None:
+        """Show the notice when a newer release is known, now and after each check."""
+        from ui.workers import update_check
+
+        update_check.shared(self.cfg).finished.connect(
+            lambda _result: self.refresh_update_banner())
+        self.refresh_update_banner()
+
+    def refresh_update_banner(self) -> None:
+        """Read what the last check found (kept in the database) and show or hide the notice."""
+        from wft import updatecheck, version as version_mod
+
+        found = None
+        try:
+            connection = dbq.connect(self.cfg.db_path)
+            try:
+                found = updatecheck.available(connection, version_mod.number())
+            finally:
+                connection.close()
+        except Exception:  # noqa: BLE001 - no database yet: no notice
+            found = None
+        if found is None:
+            self.update_banner.setVisible(False)
+            return
+        version, page = found
+        self.update_banner.setText(
+            f"<b>Version {version} is available</b> (you have "
+            f"{version_mod.number()}). <a href=\"{html.escape(page)}\">Release page</a> - "
+            "how to install it: <b>How to update</b> in the guide "
+            "(GUIDE.pdf).")
+        self.update_banner.setStyleSheet(
+            f"background: {theme.ACCENT}; color: {theme.ON_ACCENT};")
+        self.update_banner.setVisible(True)
 
     def _build_sidebar(self) -> QWidget:
         sidebar = QWidget()

@@ -7,6 +7,14 @@
 # lines    1 to 6 very short lines
 
 [[release]]
+version = "1.5.1"
+date = "2026-10-31"
+lines = [
+    "Reward card counts copies the whole set chain wants (owned 1/2)",
+    "A notice when a newer release exists; Check for updates in Settings",
+]
+
+[[release]]
 version = "1.5"
 date = "2026-10-28"
 lines = [

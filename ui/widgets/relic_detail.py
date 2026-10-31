@@ -69,7 +69,8 @@ def _standing(connection, reward, retained=None) -> QTableWidgetItem:
     from wft.relic import openings
 
     held = dbq.owned_count(connection, part)
-    need = max(1, int(reward["count_needed"] or 1))
+    need = max(1, int(reward["count_needed"] or 1),
+               int((retained or {}).get(dbq.canonical(connection, part), 0)))
     if openings.needed(connection, part, retained):
         item = QTableWidgetItem(f"NEED  {held} of {need}")
         item.setForeground(QColor(theme.GOOD))

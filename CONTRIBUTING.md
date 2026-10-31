@@ -49,10 +49,14 @@ python3 tests/test_reference_update.py
 python3 tests/test_release_skip.py
 python3 tests/test_riven.py
 python3 tests/test_trading.py
+python3 tests/test_update_check.py
 python3 tests/test_ui_smoke.py
 ```
 
-Each ends with exit status 0 when it passes. `test_ui_smoke.py` drives every
+`python3 tests/run_all.py` runs all of them one after the other and lists every
+check that was skipped; with `--strict` a skipped check fails the run. Use that
+on a machine that has the game data and the pictures, where a skip means
+something is missing. Each script ends with exit status 0 when it passes. `test_ui_smoke.py` drives every
 page offscreen and takes 4 to 10 minutes, depending on whether the game data is
 there; at the end it lists its 15 slowest checks.
 
